@@ -1,0 +1,21 @@
+﻿@model List<string>
+
+@{
+    ViewBag.Title = "Result";
+}
+
+<h2>Parse Results</h2>
+
+<div>
+    @foreach (string str in Model) {
+        <ul>str</ul>
+    }
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

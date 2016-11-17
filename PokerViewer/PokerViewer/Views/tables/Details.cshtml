@@ -1,0 +1,50 @@
+﻿@model PokerViewer.Models.table
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>table</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.MaxPlayers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MaxPlayers)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Stakes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Stakes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Site)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Site)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Limit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Limit)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TableID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,104 @@
+﻿@model PokerViewer.Models.hand
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>hand</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NumPlayers)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumPlayers)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ButtonPosition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ButtonPosition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PotSize)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PotSize)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlopCard1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlopCard1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlopCard2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlopCard2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FlopCard3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FlopCard3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TurnCard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TurnCard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RiverCard)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RiverCard)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.table.Stakes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.table.Stakes)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

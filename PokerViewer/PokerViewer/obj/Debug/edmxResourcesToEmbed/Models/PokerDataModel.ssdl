@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="pokerModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="hand">
+    <Key>
+      <PropertyRef Name="HandID" />
+    </Key>
+    <Property Name="HandID" Type="bigint" Nullable="false" />
+    <Property Name="TableID" Type="varchar" MaxLength="25" />
+    <Property Name="NumPlayers" Type="int" />
+    <Property Name="StartTime" Type="datetime" Precision="0" />
+    <Property Name="ButtonPosition" Type="int" />
+    <Property Name="PotSize" Type="decimal" Precision="10" Scale="0" />
+    <Property Name="FlopCard1" Type="char" MaxLength="2" />
+    <Property Name="FlopCard2" Type="char" MaxLength="2" />
+    <Property Name="FlopCard3" Type="char" MaxLength="2" />
+    <Property Name="TurnCard" Type="char" MaxLength="2" />
+    <Property Name="RiverCard" Type="char" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="hand_action">
+    <Key>
+      <PropertyRef Name="HandID" />
+      <PropertyRef Name="ActionID" />
+    </Key>
+    <Property Name="HandID" Type="bigint" Nullable="false" />
+    <Property Name="ActionID" Type="int" Nullable="false" />
+    <Property Name="PlayerName" Type="varchar" MaxLength="25" />
+    <Property Name="ActionName" Type="varchar" MaxLength="45" />
+    <Property Name="Street" Type="varchar" MaxLength="2" />
+    <Property Name="Amount" Type="decimal" Precision="10" Scale="0" />
+    <Property Name="IsPFR" Type="bit" />
+    <Property Name="IsVPIP" Type="bit" />
+    <Property Name="Is3Bet" Type="bit" />
+    <Property Name="Is4Bet" Type="bit" />
+  </EntityType>
+  <EntityType Name="player">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="Winnings" Type="decimal" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="plays">
+    <Key>
+      <PropertyRef Name="PlayerName" />
+      <PropertyRef Name="HandID" />
+    </Key>
+    <Property Name="PlayerName" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="HandID" Type="bigint" Nullable="false" />
+    <Property Name="StartingStack" Type="decimal" Precision="10" Scale="0" />
+    <Property Name="EndingStack" Type="decimal" Precision="10" Scale="0" />
+    <Property Name="SeatPosition" Type="int" />
+    <Property Name="HoleCard1" Type="char" MaxLength="2" />
+    <Property Name="HoleCard2" Type="char" MaxLength="2" />
+  </EntityType>
+  <EntityType Name="table">
+    <Key>
+      <PropertyRef Name="TableID" />
+    </Key>
+    <Property Name="TableID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="MaxPlayers" Type="int" />
+    <Property Name="Stakes" Type="varchar" MaxLength="20" />
+    <Property Name="Site" Type="varchar" MaxLength="45" />
+    <Property Name="Limit" Type="decimal" Precision="10" Scale="0" />
+  </EntityType>
+  <Association Name="HandID">
+    <End Role="hand" Type="Self.hand" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="plays" Type="Self.plays" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="hand">
+        <PropertyRef Name="HandID" />
+      </Principal>
+      <Dependent Role="plays">
+        <PropertyRef Name="HandID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="HandID_Action">
+    <End Role="hand" Type="Self.hand" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="hand_action" Type="Self.hand_action" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="hand">
+        <PropertyRef Name="HandID" />
+      </Principal>
+      <Dependent Role="hand_action">
+        <PropertyRef Name="HandID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerName">
+    <End Role="player" Type="Self.player" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="plays" Type="Self.plays" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="player">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="plays">
+        <PropertyRef Name="PlayerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PlayerName_Action">
+    <End Role="player" Type="Self.player" Multiplicity="0..1" />
+    <End Role="hand_action" Type="Self.hand_action" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="player">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="hand_action">
+        <PropertyRef Name="PlayerName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TableID">
+    <End Role="table" Type="Self.table" Multiplicity="0..1" />
+    <End Role="hand" Type="Self.hand" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="table">
+        <PropertyRef Name="TableID" />
+      </Principal>
+      <Dependent Role="hand">
+        <PropertyRef Name="TableID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="pokerModelStoreContainer">
+    <EntitySet Name="hand" EntityType="Self.hand" Schema="poker" store:Type="Tables" />
+    <EntitySet Name="hand_action" EntityType="Self.hand_action" Schema="poker" store:Type="Tables" />
+    <EntitySet Name="player" EntityType="Self.player" Schema="poker" store:Type="Tables" />
+    <EntitySet Name="plays" EntityType="Self.plays" Schema="poker" store:Type="Tables" />
+    <EntitySet Name="table" EntityType="Self.table" Schema="poker" store:Type="Tables" />
+    <AssociationSet Name="HandID" Association="Self.HandID">
+      <End Role="hand" EntitySet="hand" />
+      <End Role="plays" EntitySet="plays" />
+    </AssociationSet>
+    <AssociationSet Name="HandID_Action" Association="Self.HandID_Action">
+      <End Role="hand" EntitySet="hand" />
+      <End Role="hand_action" EntitySet="hand_action" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerName" Association="Self.PlayerName">
+      <End Role="player" EntitySet="player" />
+      <End Role="plays" EntitySet="plays" />
+    </AssociationSet>
+    <AssociationSet Name="PlayerName_Action" Association="Self.PlayerName_Action">
+      <End Role="player" EntitySet="player" />
+      <End Role="hand_action" EntitySet="hand_action" />
+    </AssociationSet>
+    <AssociationSet Name="TableID" Association="Self.TableID">
+      <End Role="table" EntitySet="table" />
+      <End Role="hand" EntitySet="hand" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

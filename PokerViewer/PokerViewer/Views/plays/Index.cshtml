@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PokerViewer.Models.play>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.StartingStack)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndingStack)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SeatPosition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoleCard1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HoleCard2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hand.TableID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.player.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartingStack)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndingStack)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SeatPosition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoleCard1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HoleCard2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hand.TableID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.player.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

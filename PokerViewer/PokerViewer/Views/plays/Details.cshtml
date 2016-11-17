@@ -1,0 +1,74 @@
+﻿@model PokerViewer.Models.play
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>play</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.StartingStack)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartingStack)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndingStack)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndingStack)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatPosition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatPosition)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoleCard1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoleCard1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HoleCard2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HoleCard2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.hand.TableID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.hand.TableID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.player.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.player.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

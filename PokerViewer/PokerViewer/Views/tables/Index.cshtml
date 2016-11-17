@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PokerViewer.Models.table>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.MaxPlayers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Stakes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Site)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Limit)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.MaxPlayers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stakes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Site)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Limit)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TableID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TableID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TableID })
+        </td>
+    </tr>
+}
+
+</table>

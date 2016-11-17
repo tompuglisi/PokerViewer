@@ -1,0 +1,87 @@
+﻿@model IEnumerable<PokerViewer.Models.hand>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NumPlayers)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ButtonPosition)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PotSize)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlopCard1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlopCard2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlopCard3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TurnCard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RiverCard)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.table.Stakes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumPlayers)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ButtonPosition)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PotSize)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlopCard1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlopCard2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FlopCard3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TurnCard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RiverCard)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.table.Stakes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.HandID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.HandID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.HandID })
+        </td>
+    </tr>
+}
+
+</table>

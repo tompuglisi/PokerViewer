@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="pokerModelStoreContainer" CdmEntityContainer="PokerDB">
+    <EntitySetMapping Name="hands">
+      <EntityTypeMapping TypeName="pokerModel.hand">
+        <MappingFragment StoreEntitySet="hand">
+          <ScalarProperty Name="HandID" ColumnName="HandID" />
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="NumPlayers" ColumnName="NumPlayers" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="ButtonPosition" ColumnName="ButtonPosition" />
+          <ScalarProperty Name="PotSize" ColumnName="PotSize" />
+          <ScalarProperty Name="FlopCard1" ColumnName="FlopCard1" />
+          <ScalarProperty Name="FlopCard2" ColumnName="FlopCard2" />
+          <ScalarProperty Name="FlopCard3" ColumnName="FlopCard3" />
+          <ScalarProperty Name="TurnCard" ColumnName="TurnCard" />
+          <ScalarProperty Name="RiverCard" ColumnName="RiverCard" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="hand_action">
+      <EntityTypeMapping TypeName="pokerModel.hand_action">
+        <MappingFragment StoreEntitySet="hand_action">
+          <ScalarProperty Name="HandID" ColumnName="HandID" />
+          <ScalarProperty Name="ActionID" ColumnName="ActionID" />
+          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+          <ScalarProperty Name="Street" ColumnName="Street" />
+          <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="IsPFR" ColumnName="IsPFR" />
+          <ScalarProperty Name="IsVPIP" ColumnName="IsVPIP" />
+          <ScalarProperty Name="Is3Bet" ColumnName="Is3Bet" />
+          <ScalarProperty Name="Is4Bet" ColumnName="Is4Bet" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="players">
+      <EntityTypeMapping TypeName="pokerModel.player">
+        <MappingFragment StoreEntitySet="player">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="plays">
+      <EntityTypeMapping TypeName="pokerModel.play">
+        <MappingFragment StoreEntitySet="plays">
+          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="HandID" ColumnName="HandID" />
+          <ScalarProperty Name="StartingStack" ColumnName="StartingStack" />
+          <ScalarProperty Name="EndingStack" ColumnName="EndingStack" />
+          <ScalarProperty Name="SeatPosition" ColumnName="SeatPosition" />
+          <ScalarProperty Name="HoleCard1" ColumnName="HoleCard1" />
+          <ScalarProperty Name="HoleCard2" ColumnName="HoleCard2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="tables">
+      <EntityTypeMapping TypeName="pokerModel.table">
+        <MappingFragment StoreEntitySet="table">
+          <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="MaxPlayers" ColumnName="MaxPlayers" />
+          <ScalarProperty Name="Stakes" ColumnName="Stakes" />
+          <ScalarProperty Name="Site" ColumnName="Site" />
+          <ScalarProperty Name="Limit" ColumnName="Limit" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

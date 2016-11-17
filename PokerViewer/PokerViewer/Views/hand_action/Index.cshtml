@@ -1,0 +1,81 @@
+﻿@model IEnumerable<PokerViewer.Models.hand_action>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPFR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsVPIP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Is3Bet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Is4Bet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.hand.TableID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.player.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Street)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsPFR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsVPIP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Is3Bet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Is4Bet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.hand.TableID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.player.Name)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
