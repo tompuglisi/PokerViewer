@@ -1,4 +1,4 @@
-﻿@model List<string>
+﻿@model PokerViewer.Models.Add
 
 @{
     ViewBag.Title = "Result";
@@ -7,9 +7,14 @@
 <h2>Parse Results</h2>
 
 <div>
-    @foreach (string str in Model) {
-        <ul>str</ul>
-    }
+    <ul>
+        @foreach (string str in ViewData["messages"] as IList<string>)
+        {
+            <li>
+                @str
+            </li>
+        }
+    </ul>
 </div>
 
 <div>

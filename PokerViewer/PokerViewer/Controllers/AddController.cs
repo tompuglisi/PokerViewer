@@ -48,7 +48,8 @@ namespace PokerViewer.Controllers
                 messages.AddRange(Parse(add.FilePath));
             }
             else messages.Add("Invalid model state. Input was not parsed.");
-            return View("Result",messages);
+            ViewData["messages"] = messages as IList<string>;
+            return View("Result");
         }
 
         private List<string> Parse(string filePath)
