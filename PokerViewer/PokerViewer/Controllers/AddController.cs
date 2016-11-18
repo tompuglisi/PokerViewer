@@ -48,7 +48,9 @@ namespace PokerViewer.Controllers
                 messages.AddRange(Parse(add.FilePath));
             }
             else messages.Add("Invalid model state. Input was not parsed.");
-            return View("Result",messages);
+           
+			return View("Result",messages);
+
         }
 
         private List<string> Parse(string filePath)
@@ -155,23 +157,38 @@ namespace PokerViewer.Controllers
                 FlopCard3 = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
                 TurnCard = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
                 RiverCard = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
+				table = db.tables.Find(handHistory.TableName),
             };
             db.hands.Add(newHand);
         }
 
         private void addPlayToDB(HandHistory handHistory, Player player)
         {
+			IEnumerator<Card> cardList =null;
+			string card1 = null;
+			string card2 = null;
             if (player.IsSittingOut) return;
-            if (db.plays.Find(handHistory.HandId, player.PlayerName) != null) return;
-            IEnumerator<Card> cardList = player.HoleCards.GetEnumerator();
+            if (db.plays.Find(player.PlayerName,handHistory.HandId ) != null) return;//this is failing
+			if (player.HoleCards != null)
+			{
+				cardList = player.HoleCards.GetEnumerator();
+				card1 =(cardList.MoveNext()) ? cardList.Current.ToString() : null;
+				card2 = (cardList.MoveNext()) ? cardList.Current.ToString() : null;
+
+			}
+            
             play newPlay = new Models.play
             {
                 PlayerName = player.PlayerName,
                 HandID = handHistory.HandId,
                 StartingStack = player.StartingStack,
                 SeatPosition = player.SeatNumber,
-                HoleCard1 = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
-                HoleCard2 = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
+				
+                HoleCard1 = card1,
+                HoleCard2 = card2,
+				hand = db.hands.Find(handHistory.HandId),
+				player = db.players.Find(player.PlayerName),
+				
             };
             db.plays.Add(newPlay);
         }
@@ -185,6 +202,7 @@ namespace PokerViewer.Controllers
                 MaxPlayers = handHistory.GameDescription.SeatType.MaxPlayers,
                 Stakes = handHistory.GameDescription.Limit.ToDbSafeString(),
                 Site = handHistory.GameDescription.Site.ToString(),
+			
             };
             db.tables.Add(newTable);
         }
@@ -214,7 +232,9 @@ namespace PokerViewer.Controllers
                     IsPFR = item.IsPreFlopRaise,
                     IsVPIP = (item.Street==Street.Preflop) ? (item.IsAggressiveAction || item.HandActionType==HandActionType.CALL) : false,
                     Is3Bet = (item.IsAggressiveAction && aggro==3),
-                    Is4Bet = (item.IsAggressiveAction && aggro==4)
+                    Is4Bet = (item.IsAggressiveAction && aggro==4),
+					hand =  db.hands.Find(handHistory.HandId),
+					player = db.players.Find(item.PlayerName),
                 };
                 db.hand_action.Add(newHandAction);
             }
