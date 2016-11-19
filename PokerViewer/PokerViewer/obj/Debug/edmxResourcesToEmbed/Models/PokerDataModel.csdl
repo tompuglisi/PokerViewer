@@ -69,7 +69,6 @@
     <Property Name="MaxPlayers" Type="Int32" />
     <Property Name="Stakes" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Site" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-    <Property Name="Limit" Type="Decimal" />
     <NavigationProperty Name="hands" Relationship="Self.TableID" FromRole="table" ToRole="hand" />
   </EntityType>
   <Association Name="HandID">

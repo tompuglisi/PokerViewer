@@ -62,7 +62,6 @@
           <ScalarProperty Name="MaxPlayers" ColumnName="MaxPlayers" />
           <ScalarProperty Name="Stakes" ColumnName="Stakes" />
           <ScalarProperty Name="Site" ColumnName="Site" />
-          <ScalarProperty Name="Limit" ColumnName="Limit" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
