@@ -131,6 +131,7 @@ namespace PokerViewer.Controllers
             foreach (Player item in handHistory.Players)
             {
                 player newPlayer = new Models.player { Name = item.PlayerName };
+                if (newPlayer.Name == null) continue;
                 if (db.players.Find(item.PlayerName) == null)
                 {
                     db.players.Add(newPlayer);
@@ -162,9 +163,9 @@ namespace PokerViewer.Controllers
 
         private void addPlayToDB(HandHistory handHistory, Player player)
         {
-            if (player.IsSittingOut) return;
+            if (player.IsSittingOut || player.PlayerName == null) return;
             if (db.plays.Find(handHistory.HandId, player.PlayerName) != null) return;
-            IEnumerator<Card> cardList = player.HoleCards.GetEnumerator();
+            IEnumerator<Card> cardList = (player.hasHoleCards) ? player.HoleCards.GetEnumerator() : null;
             play newPlay = new Models.play
             {
                 PlayerName = player.PlayerName,
@@ -215,7 +216,7 @@ namespace PokerViewer.Controllers
                     IsPFR = item.IsPreFlopRaise,
                     IsVPIP = (item.Street==Street.Preflop) ? (item.IsAggressiveAction || item.HandActionType==HandActionType.CALL) : false,
                     Is3Bet = (item.IsAggressiveAction && aggro==3),
-                    Is4Bet = (item.IsAggressiveAction && aggro==4)
+                    Is4Bet = (item.IsAggressiveAction && aggro==4),
                 };
                 db.hand_action.Add(newHandAction);
             }
