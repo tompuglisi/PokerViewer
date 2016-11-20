@@ -5,7 +5,7 @@
       <PropertyRef Name="HandID" />
     </Key>
     <Property Name="HandID" Type="Int64" Nullable="false" />
-    <Property Name="TableID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="TableID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="NumPlayers" Type="Int32" />
     <Property Name="StartTime" Type="DateTime" />
     <Property Name="ButtonPosition" Type="Int32" />
@@ -28,7 +28,7 @@
     <Property Name="ActionID" Type="Int32" Nullable="false" />
     <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
     <Property Name="ActionName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
-    <Property Name="Street" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
+    <Property Name="Street" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Amount" Type="Decimal" />
     <Property Name="IsPFR" Type="Boolean" />
     <Property Name="IsVPIP" Type="Boolean" />
@@ -65,7 +65,7 @@
     <Key>
       <PropertyRef Name="TableID" />
     </Key>
-    <Property Name="TableID" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TableID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="MaxPlayers" Type="Int32" />
     <Property Name="Stakes" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Site" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />

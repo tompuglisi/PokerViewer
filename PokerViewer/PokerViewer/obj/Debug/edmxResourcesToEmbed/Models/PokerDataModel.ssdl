@@ -5,7 +5,7 @@
       <PropertyRef Name="HandID" />
     </Key>
     <Property Name="HandID" Type="bigint" Nullable="false" />
-    <Property Name="TableID" Type="varchar" MaxLength="25" />
+    <Property Name="TableID" Type="varchar" MaxLength="100" />
     <Property Name="NumPlayers" Type="int" />
     <Property Name="StartTime" Type="datetime" Precision="0" />
     <Property Name="ButtonPosition" Type="int" />
@@ -25,7 +25,7 @@
     <Property Name="ActionID" Type="int" Nullable="false" />
     <Property Name="PlayerName" Type="varchar" MaxLength="25" />
     <Property Name="ActionName" Type="varchar" MaxLength="45" />
-    <Property Name="Street" Type="varchar" MaxLength="2" />
+    <Property Name="Street" Type="varchar" MaxLength="10" />
     <Property Name="Amount" Type="decimal" Precision="10" Scale="0" />
     <Property Name="IsPFR" Type="bit" />
     <Property Name="IsVPIP" Type="bit" />
@@ -56,11 +56,10 @@
     <Key>
       <PropertyRef Name="TableID" />
     </Key>
-    <Property Name="TableID" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="TableID" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="MaxPlayers" Type="int" />
     <Property Name="Stakes" Type="varchar" MaxLength="20" />
     <Property Name="Site" Type="varchar" MaxLength="45" />
-    <Property Name="Limit" Type="decimal" Precision="10" Scale="0" />
   </EntityType>
   <Association Name="HandID">
     <End Role="hand" Type="Self.hand" Multiplicity="1">
