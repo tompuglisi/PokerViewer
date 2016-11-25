@@ -206,11 +206,12 @@ namespace PokerViewer.Controllers
 
         private void addHandActionToDB(HandHistory handHistory)
         {
-            int aggro=0;
+            int aggro = 0;
+            int actionNumber = 0;
             Street curStreet = Street.Preflop;
             foreach (HandAction item in handHistory.HandActions)
             {
-                if (db.hand_action.Find(handHistory.HandId, item.ActionNumber) != null) continue;
+                if (db.hand_action.Find(handHistory.HandId, actionNumber) != null) continue;
                 if (curStreet != item.Street)
                 {
                     curStreet = item.Street;
@@ -221,7 +222,7 @@ namespace PokerViewer.Controllers
                 hand_action newHandAction = new Models.hand_action
                 {
                     HandID = handHistory.HandId,
-                    ActionID = item.ActionNumber,
+                    ActionID = actionNumber,
                     PlayerName = item.PlayerName,
                     ActionName = item.HandActionType.ToString(),
                     Street = item.Street.ToString(),
@@ -234,6 +235,7 @@ namespace PokerViewer.Controllers
 					player = db.players.Find(item.PlayerName),
                 };
                 db.hand_action.Add(newHandAction);
+                actionNumber++;
             }
         }
     }

@@ -12,6 +12,15 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.HandID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlayerName)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.ActionName)
         </th>
         <th>
@@ -20,29 +29,20 @@
         <th>
             @Html.DisplayNameFor(model => model.Amount)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsPFR)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsVPIP)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Is3Bet)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Is4Bet)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.hand.TableID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.player.Name)
-        </th>
         <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HandID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActionID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlayerName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.ActionName)
         </td>
@@ -51,24 +51,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsPFR)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.IsVPIP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Is3Bet)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Is4Bet)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.hand.TableID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.player.Name)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
