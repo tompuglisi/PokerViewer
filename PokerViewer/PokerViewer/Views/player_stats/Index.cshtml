@@ -1,0 +1,69 @@
+﻿@model IEnumerable<PokerViewer.Models.player_stats>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.HandsPlayed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Winnings)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.VPIP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PFR)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ThreeBet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FourBet)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PFAF)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.HandsPlayed)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Winnings)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VPIP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PFR)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ThreeBet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FourBet)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PFAF)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.PlayerName }) |
+            @Html.ActionLink("Details", "Details", new { id=item.PlayerName }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.PlayerName })
+        </td>
+    </tr>
+}
+
+</table>

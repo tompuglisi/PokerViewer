@@ -1,0 +1,80 @@
+﻿@model PokerViewer.Models.player_stats
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>player_stats</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.HandsPlayed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HandsPlayed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Winnings)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Winnings)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VPIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VPIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PFR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PFR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThreeBet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThreeBet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FourBet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FourBet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PFAF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PFAF)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

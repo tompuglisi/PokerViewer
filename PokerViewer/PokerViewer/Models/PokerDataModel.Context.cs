@@ -30,5 +30,6 @@ namespace PokerViewer.Models
         public virtual DbSet<player> players { get; set; }
         public virtual DbSet<play> plays { get; set; }
         public virtual DbSet<table> tables { get; set; }
+        public virtual DbSet<player_stats> player_stats { get; set; }
     }
 }

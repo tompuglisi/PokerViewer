@@ -32,7 +32,10 @@ namespace PokerViewer.Controllers
             {
                 return HttpNotFound();
             }
-            return View(player);
+            return RedirectToAction("Details", "player_stats", player.Name);
+            //string query = "SELECT * FROM player_stats WHERE PlayerName = @p0";
+            //db.player_stats.SqlQuery(query, player.Name);
+            //return View(player);
         }
 
         // GET: players/Create

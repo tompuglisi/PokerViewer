@@ -1,0 +1,82 @@
+﻿@model PokerViewer.Models.player_stats
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>player_stats</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PlayerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlayerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HandsPlayed)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HandsPlayed)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Winnings)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Winnings)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.VPIP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VPIP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PFR)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PFR)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThreeBet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThreeBet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FourBet)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FourBet)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PFAF)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PFAF)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PlayerName }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

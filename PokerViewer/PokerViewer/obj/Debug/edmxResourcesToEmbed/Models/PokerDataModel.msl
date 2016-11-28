@@ -65,5 +65,19 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="player_stats">
+      <EntityTypeMapping TypeName="pokerModel.player_stats">
+        <MappingFragment StoreEntitySet="player_stats">
+          <ScalarProperty Name="PFAF" ColumnName="PFAF" />
+          <ScalarProperty Name="FourBet" ColumnName="FourBet" />
+          <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
+          <ScalarProperty Name="PFR" ColumnName="PFR" />
+          <ScalarProperty Name="VPIP" ColumnName="VPIP" />
+          <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+          <ScalarProperty Name="HandsPlayed" ColumnName="HandsPlayed" />
+          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

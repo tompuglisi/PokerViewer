@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="pokerModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="pokerModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="hand">
           <Key>
             <PropertyRef Name="HandID" />
@@ -65,7 +65,22 @@
           <Property Name="MaxPlayers" Type="int" />
           <Property Name="Stakes" Type="varchar" MaxLength="20" />
           <Property Name="Site" Type="varchar" MaxLength="45" />
-          </EntityType>
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'def.poker.player_stats' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="player_stats">
+          <Key>
+            <PropertyRef Name="PlayerName" />
+          </Key>
+          <Property Name="PlayerName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="HandsPlayed" Type="bigint" Nullable="false" />
+          <Property Name="Winnings" Type="decimal" Precision="32" Scale="0" />
+          <Property Name="VPIP" Type="decimal" Precision="24" Scale="4" />
+          <Property Name="PFR" Type="decimal" Precision="27" Scale="4" />
+          <Property Name="ThreeBet" Type="decimal" Precision="27" Scale="4" />
+          <Property Name="FourBet" Type="decimal" Precision="27" Scale="4" />
+          <Property Name="PFAF" Type="decimal" Precision="24" Scale="4" />
+        </EntityType>
         <Association Name="HandID">
           <End Role="hand" Type="Self.hand" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -138,6 +153,18 @@
           <EntitySet Name="player" EntityType="Self.player" Schema="poker" store:Type="Tables" />
           <EntitySet Name="plays" EntityType="Self.plays" Schema="poker" store:Type="Tables" />
           <EntitySet Name="table" EntityType="Self.table" Schema="poker" store:Type="Tables" />
+          <EntitySet Name="player_stats" EntityType="Self.player_stats" store:Type="Views" store:Schema="poker">
+            <DefiningQuery>SELECT
+`player_stats`.`PlayerName`, 
+`player_stats`.`HandsPlayed`, 
+`player_stats`.`Winnings`, 
+`player_stats`.`VPIP`, 
+`player_stats`.`PFR`, 
+`player_stats`.`ThreeBet`, 
+`player_stats`.`FourBet`, 
+`player_stats`.`PFAF`
+FROM `player_stats` AS `player_stats`</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="HandID" Association="Self.HandID">
             <End Role="hand" EntitySet="hand" />
             <End Role="plays" EntitySet="plays" />
@@ -159,8 +186,7 @@
             <End Role="hand" EntitySet="hand" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="pokerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -327,7 +353,21 @@
             <End Role="player" EntitySet="players" />
             <End Role="plays" EntitySet="plays" />
           </AssociationSet>
+          <EntitySet Name="player_stats" EntityType="pokerModel.player_stats" />
         </EntityContainer>
+        <EntityType Name="player_stats">
+          <Key>
+            <PropertyRef Name="PlayerName" />
+          </Key>
+          <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
+          <Property Name="Winnings" Type="Decimal" />
+          <Property Name="VPIP" Type="Decimal" />
+          <Property Name="PFR" Type="Decimal" />
+          <Property Name="ThreeBet" Type="Decimal" />
+          <Property Name="FourBet" Type="Decimal" />
+          <Property Name="PFAF" Type="Decimal" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -395,6 +435,20 @@
                 <ScalarProperty Name="MaxPlayers" ColumnName="MaxPlayers" />
                 <ScalarProperty Name="Stakes" ColumnName="Stakes" />
                 <ScalarProperty Name="Site" ColumnName="Site" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="player_stats">
+            <EntityTypeMapping TypeName="pokerModel.player_stats">
+              <MappingFragment StoreEntitySet="player_stats">
+                <ScalarProperty Name="PFAF" ColumnName="PFAF" />
+                <ScalarProperty Name="FourBet" ColumnName="FourBet" />
+                <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
+                <ScalarProperty Name="PFR" ColumnName="PFR" />
+                <ScalarProperty Name="VPIP" ColumnName="VPIP" />
+                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+                <ScalarProperty Name="HandsPlayed" ColumnName="HandsPlayed" />
+                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

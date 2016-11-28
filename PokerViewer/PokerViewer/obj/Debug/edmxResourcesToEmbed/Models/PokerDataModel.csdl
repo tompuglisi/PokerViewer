@@ -163,5 +163,19 @@
       <End Role="player" EntitySet="players" />
       <End Role="plays" EntitySet="plays" />
     </AssociationSet>
+    <EntitySet Name="player_stats" EntityType="pokerModel.player_stats" />
   </EntityContainer>
+  <EntityType Name="player_stats">
+    <Key>
+      <PropertyRef Name="PlayerName" />
+    </Key>
+    <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
+    <Property Name="Winnings" Type="Decimal" />
+    <Property Name="VPIP" Type="Decimal" />
+    <Property Name="PFR" Type="Decimal" />
+    <Property Name="ThreeBet" Type="Decimal" />
+    <Property Name="FourBet" Type="Decimal" />
+    <Property Name="PFAF" Type="Decimal" />
+  </EntityType>
 </Schema>
