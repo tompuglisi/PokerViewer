@@ -1590,6 +1590,12 @@ pre code {
   padding-left: 15px;
   padding-right: 15px;
 }
+.containerMin {
+  margin-right: auto;
+ 
+  padding-left: 15px;
+  padding-right: 15px;
+}
 @media (min-width: 768px) {
   .container {
     width: 750px;
@@ -4296,9 +4302,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-toggle {
   position: relative;
-  float: right;
-  margin-right: 15px;
-  padding: 9px 10px;
+  float: left;
+   padding: 9px 10px;
   margin-top: 8px;
   margin-bottom: 8px;
   background-color: transparent;
@@ -4318,7 +4323,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-toggle .icon-bar + .icon-bar {
   margin-top: 4px;
 }
-@media (min-width: 768px) {
+@media (min-width: 3000px) {
   .navbar-toggle {
     display: none;
   }
@@ -6895,29 +6900,31 @@ button.close {
   background-image: -o-linear-gradient(#E1EFFF, #E1EFFF 60%, #f5f5f5);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#E1EFFF), color-stop(60%, #E1EFFF), to(#f5f5f5));
   background-image: linear-gradient(#E1EFFF, #E1EFFF 60%, #f5f5f5);
-   background-image:none;
   background-repeat: no-repeat;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E1EFFFff', endColorstr='#fff5f5f5', GradientType=0);
   -webkit-filter: none;
           filter: none;
   border-bottom: 1px solid #e6e6e6;
-}
-.btn-default:hover {
-  color: #779ECC;
-}
-.btn-default .caret {
-  border-top-color: #779ECC;
 }
 .btn-default {
   background-image: -webkit-linear-gradient(#E1EFFF, #E1EFFF 60%, #f5f5f5);
   background-image: -o-linear-gradient(#E1EFFF, #E1EFFF 60%, #f5f5f5);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#E1EFFF), color-stop(60%, #E1EFFF), to(#f5f5f5));
   background-image: linear-gradient(#E1EFFF, #E1EFFF 60%, #f5f5f5);
+   background-image:none;
   background-repeat: no-repeat;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E1EFFFff', endColorstr='#fff5f5f5', GradientType=0);
   -webkit-filter: none;
           filter: none;
   border-bottom: 1px solid #e6e6e6;
+   transition: 0.2s ease-in-out;
+}
+.btn-default:hover {
+  color: #779ECC;
+  transform: scale( 1.15 );
+}
+.btn-default .caret {
+  border-top-color: #779ECC;
 }
 .btn-primary {
   background-image: -webkit-linear-gradient(#54b4eb, #2fa4e7 60%, #1d9ce5);
