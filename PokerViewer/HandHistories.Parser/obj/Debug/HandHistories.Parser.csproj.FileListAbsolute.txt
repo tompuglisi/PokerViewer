@@ -16,3 +16,12 @@ C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistor
 C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Parser\obj\Debug\HandHistories.Parser.csprojResolveAssemblyReference.cache
 C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Parser\obj\Debug\HandHistories.Parser.dll
 C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Parser\obj\Debug\HandHistories.Parser.pdb
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\bin\Debug\HandHistories.Parser.dll
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\bin\Debug\HandHistories.Parser.pdb
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\bin\Debug\HandHistories.Objects.dll
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\bin\Debug\NLog.dll
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\bin\Debug\HandHistories.Objects.pdb
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\bin\Debug\NLog.xml
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\obj\Debug\HandHistories.Parser.csprojResolveAssemblyReference.cache
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\obj\Debug\HandHistories.Parser.dll
+C:\Users\rcotter\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Parser\obj\Debug\HandHistories.Parser.pdb
