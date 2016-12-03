@@ -1,9 +1,0 @@
-C:\Users\Tom\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Objects\bin\Debug\HandHistories.Objects.dll
-C:\Users\Tom\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Objects\bin\Debug\HandHistories.Objects.pdb
-C:\Users\Tom\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Objects\obj\Debug\HandHistories.Objects.dll
-C:\Users\Tom\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Objects\obj\Debug\HandHistories.Objects.pdb
-C:\Users\Tom\Documents\GitHub\PokerViewer\PokerViewer\HandHistories.Objects\obj\Debug\HandHistories.Objects.csprojResolveAssemblyReference.cache
-C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Objects\bin\Debug\HandHistories.Objects.dll
-C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Objects\bin\Debug\HandHistories.Objects.pdb
-C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Objects\obj\Debug\HandHistories.Objects.dll
-C:\Users\rcotter\Downloads\PokerViewer-master\PokerViewer\PokerViewer\HandHistories.Objects\obj\Debug\HandHistories.Objects.pdb
