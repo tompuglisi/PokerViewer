@@ -86,6 +86,7 @@ namespace PokerViewer.Controllers
             {
                 List<string> hands = new List<string>();
                 hands = handHistoryParser.SplitUpMultipleHands(handText).ToList();
+                db.Configuration.AutoDetectChangesEnabled = false;
                 foreach (string hand in hands)
                 {
                     try
@@ -96,17 +97,22 @@ namespace PokerViewer.Controllers
 
                         //handhistory can now be broken down to be put into the database
 
-                        // Add to player and play table
-                        addPlayersToDB(handHistory);
-
-                        //Add to hand table
-                        addHandToDB(handHistory);
+                        // Add to player table
+                        Dictionary<string, player> playerDict = addPlayersToDB(handHistory);
 
                         // Add to table table
-                        addTableToDB(handHistory);
+                        table dbTable = addTableToDB(handHistory);
 
-                        // Add to hand_action
-                        addHandActionToDB(handHistory);
+                        db.SaveChanges();
+
+                        //Add to hand table
+                        hand dbHand = addHandToDB(handHistory, dbTable);
+
+                        // Add to plays table
+                        addPlaysToDB(handHistory, playerDict);
+
+                        // Add to hand_action table
+                        addHandActionToDB(handHistory, dbHand, playerDict);
 
                         db.SaveChanges();
 
@@ -123,31 +129,70 @@ namespace PokerViewer.Controllers
             {
                 messages.Add("Parsing Error: " + ex.Message);
             }
+            db.Configuration.AutoDetectChangesEnabled = true;
             return messages;
         }
 
-        private void addPlayersToDB(HandHistory handHistory)
+        private Dictionary<string,player> addPlayersToDB(HandHistory handHistory)
         {
+            Dictionary<string,player> playerDict = new Dictionary<string, player>();
             foreach (Player item in handHistory.Players)
             {
-                player newPlayer = new Models.player { Name = item.PlayerName };
-                if (newPlayer.Name == null) continue;
-                if (db.players.Find(item.PlayerName) == null)
+
+                if (item.PlayerName == null) continue;
+                player dbPlayer = db.players
+                    .Where(s => s.Name == item.PlayerName)
+                    .SingleOrDefault();
+                if (dbPlayer == null)
                 {
-                    db.players.Add(newPlayer);
+                    dbPlayer = new Models.player { Name = item.PlayerName };
+                    db.players.Add(dbPlayer);
                 }
-                addPlayToDB(handHistory, item);
+                playerDict.Add(dbPlayer.Name, dbPlayer);
+            }
+            return playerDict;
+        }
+
+        private void addPlaysToDB(HandHistory handHistory, Dictionary<string,player> playerDict)
+        {
+            foreach (Player parserPlayer in handHistory.Players)
+            {
+                player dbPlayer = playerDict[parserPlayer.PlayerName];
+                IEnumerator<Card> cardList = null;
+                string card1 = null;
+                string card2 = null;
+                if (parserPlayer.IsSittingOut) return;
+                if (db.plays.Find(dbPlayer.PlayerID, handHistory.HandId) != null) return; //this is failing
+                if (parserPlayer.hasHoleCards)
+                {
+                    cardList = parserPlayer.HoleCards.GetEnumerator();
+                    card1 = (cardList.MoveNext()) ? cardList.Current.ToString() : null;
+                    card2 = (cardList.MoveNext()) ? cardList.Current.ToString() : null;
+                }
+                play newPlay = new Models.play
+                {
+                    PlayerID = dbPlayer.PlayerID,
+                    HandID = handHistory.HandId,
+                    StartingStack = parserPlayer.StartingStack,
+                    SeatPosition = parserPlayer.SeatNumber,
+                    HoleCard1 = card1,
+                    HoleCard2 = card2,
+                    hand = db.hands.Find(handHistory.HandId),
+                    player = dbPlayer,
+                };
+                db.plays.Add(newPlay);
             }
         }
 
-        private void addHandToDB(HandHistory handHistory)
+        private hand addHandToDB(HandHistory handHistory, table handTable)
         {
-            if (db.hands.Find(handHistory.HandId) != null) return;
+            hand dbHand = db.hands.Find(handHistory.HandId);
+            if (dbHand != null) return dbHand;
             IEnumerator<Card> cardList = handHistory.CommunityCards.GetEnumerator();
-            hand newHand = new Models.hand
+            dbHand = new Models.hand
             {
                 HandID = handHistory.HandId,
-                TableID = handHistory.TableName,
+                TableID = handTable.TableID,
                 NumPlayers = handHistory.NumPlayersActive,
                 StartTime = handHistory.DateOfHandUtc,
                 ButtonPosition = handHistory.DealerButtonPosition,
@@ -157,54 +202,31 @@ namespace PokerViewer.Controllers
                 FlopCard3 = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
                 TurnCard = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
                 RiverCard = (cardList.MoveNext()) ? cardList.Current.ToString() : null,
-				table = db.tables.Find(handHistory.TableName),
+				table = handTable,
             };
-            db.hands.Add(newHand);
+            db.hands.Add(dbHand);
+            return dbHand;
         }
 
-        private void addPlayToDB(HandHistory handHistory, Player player)
+        private table addTableToDB(HandHistory handHistory)
         {
-			IEnumerator<Card> cardList =null;
-			string card1 = null;
-			string card2 = null;
-            if (player.IsSittingOut) return;
-            if (db.plays.Find(player.PlayerName, handHistory.HandId) != null) return;//this is failing
-			if (player.hasHoleCards)
-			{
-				cardList = player.HoleCards.GetEnumerator();
-				card1 = (cardList.MoveNext()) ? cardList.Current.ToString() : null;
-				card2 = (cardList.MoveNext()) ? cardList.Current.ToString() : null;
-			}
-            play newPlay = new Models.play
+            table dbTable = db.tables
+                .Where(s => s.TableName == handHistory.TableName)
+                .SingleOrDefault();
+            if (dbTable != null) return dbTable;
+            dbTable = new Models.table
             {
-                PlayerName = player.PlayerName,
-                HandID = handHistory.HandId,
-                StartingStack = player.StartingStack,
-                SeatPosition = player.SeatNumber,
-                HoleCard1 = card1,
-                HoleCard2 = card2,
-				hand = db.hands.Find(handHistory.HandId),
-				player = db.players.Find(player.PlayerName),
-				
-            };
-            db.plays.Add(newPlay);
-        }
-
-        private void addTableToDB(HandHistory handHistory)
-        {
-            if (db.tables.Find(handHistory.TableName) != null) return;
-            table newTable = new Models.table
-            {
-                TableID = handHistory.TableName,
+                TableName = handHistory.TableName,
                 MaxPlayers = handHistory.GameDescription.SeatType.MaxPlayers,
                 Stakes = handHistory.GameDescription.Limit.ToDbSafeString(),
                 Site = handHistory.GameDescription.Site.ToString(),
-			
             };
-            db.tables.Add(newTable);
+            db.tables.Add(dbTable);
+            db.SaveChanges();
+            return dbTable;
         }
 
-        private void addHandActionToDB(HandHistory handHistory)
+        private void addHandActionToDB(HandHistory handHistory, hand dbHand, Dictionary<string,player> playerDict)
         {
             int aggro = 0;
             int actionNumber = 0;
@@ -223,7 +245,7 @@ namespace PokerViewer.Controllers
                 {
                     HandID = handHistory.HandId,
                     ActionID = actionNumber,
-                    PlayerName = item.PlayerName,
+                    PlayerID = playerDict[item.PlayerName].PlayerID,
                     ActionName = item.HandActionType.ToString(),
                     Street = item.Street.ToString(),
                     Amount = item.Amount,
@@ -231,8 +253,8 @@ namespace PokerViewer.Controllers
                     IsVPIP = (item.Street==Street.Preflop) ? (item.IsAggressiveAction || item.HandActionType==HandActionType.CALL) : false,
                     Is3Bet = (item.IsAggressiveAction && aggro==3),
                     Is4Bet = (item.IsAggressiveAction && aggro==4),
-					hand = db.hands.Find(handHistory.HandId),
-					player = db.players.Find(item.PlayerName),
+					hand = dbHand,
+					player = playerDict[item.PlayerName],
                 };
                 db.hand_action.Add(newHandAction);
                 actionNumber++;

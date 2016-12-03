@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="pokerModelStoreContainer" CdmEntityContainer="PokerDB">
+  <EntityContainerMapping StorageEntityContainer="PokerDataModelStoreContainer" CdmEntityContainer="PokerDB">
     <EntitySetMapping Name="hands">
-      <EntityTypeMapping TypeName="pokerModel.hand">
+      <EntityTypeMapping TypeName="PokerDataModel.hand">
         <MappingFragment StoreEntitySet="hand">
           <ScalarProperty Name="HandID" ColumnName="HandID" />
           <ScalarProperty Name="TableID" ColumnName="TableID" />
@@ -19,11 +19,11 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="hand_action">
-      <EntityTypeMapping TypeName="pokerModel.hand_action">
+      <EntityTypeMapping TypeName="PokerDataModel.hand_action">
         <MappingFragment StoreEntitySet="hand_action">
           <ScalarProperty Name="HandID" ColumnName="HandID" />
           <ScalarProperty Name="ActionID" ColumnName="ActionID" />
-          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
           <ScalarProperty Name="ActionName" ColumnName="ActionName" />
           <ScalarProperty Name="Street" ColumnName="Street" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
@@ -35,17 +35,17 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="players">
-      <EntityTypeMapping TypeName="pokerModel.player">
+      <EntityTypeMapping TypeName="PokerDataModel.player">
         <MappingFragment StoreEntitySet="player">
+          <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Winnings" ColumnName="Winnings" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="plays">
-      <EntityTypeMapping TypeName="pokerModel.play">
+      <EntityTypeMapping TypeName="PokerDataModel.play">
         <MappingFragment StoreEntitySet="plays">
-          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
           <ScalarProperty Name="HandID" ColumnName="HandID" />
           <ScalarProperty Name="StartingStack" ColumnName="StartingStack" />
           <ScalarProperty Name="EndingStack" ColumnName="EndingStack" />
@@ -56,9 +56,10 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="tables">
-      <EntityTypeMapping TypeName="pokerModel.table">
+      <EntityTypeMapping TypeName="PokerDataModel.table">
         <MappingFragment StoreEntitySet="table">
           <ScalarProperty Name="TableID" ColumnName="TableID" />
+          <ScalarProperty Name="TableName" ColumnName="TableName" />
           <ScalarProperty Name="MaxPlayers" ColumnName="MaxPlayers" />
           <ScalarProperty Name="Stakes" ColumnName="Stakes" />
           <ScalarProperty Name="Site" ColumnName="Site" />
@@ -66,16 +67,16 @@
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="player_stats">
-      <EntityTypeMapping TypeName="pokerModel.player_stats">
+      <EntityTypeMapping TypeName="PokerDataModel.player_stats">
         <MappingFragment StoreEntitySet="player_stats">
-          <ScalarProperty Name="PFAF" ColumnName="PFAF" />
-          <ScalarProperty Name="FourBet" ColumnName="FourBet" />
-          <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
-          <ScalarProperty Name="PFR" ColumnName="PFR" />
-          <ScalarProperty Name="VPIP" ColumnName="VPIP" />
-          <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="HandsPlayed" ColumnName="HandsPlayed" />
-          <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+          <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+          <ScalarProperty Name="VPIP" ColumnName="VPIP" />
+          <ScalarProperty Name="PFR" ColumnName="PFR" />
+          <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
+          <ScalarProperty Name="FourBet" ColumnName="FourBet" />
+          <ScalarProperty Name="PFAF" ColumnName="PFAF" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

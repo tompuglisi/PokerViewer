@@ -20,7 +20,8 @@ namespace PokerViewer.Models
             this.hands = new HashSet<hand>();
         }
     
-        public string TableID { get; set; }
+        public long TableID { get; set; }
+        public string TableName { get; set; }
         public Nullable<int> MaxPlayers { get; set; }
         public string Stakes { get; set; }
         public string Site { get; set; }

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Schema Namespace="pokerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+<Schema Namespace="PokerDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityType Name="hand">
     <Key>
       <PropertyRef Name="HandID" />
     </Key>
     <Property Name="HandID" Type="Int64" Nullable="false" />
-    <Property Name="TableID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TableID" Type="Int64" />
     <Property Name="NumPlayers" Type="Int32" />
     <Property Name="StartTime" Type="DateTime" />
     <Property Name="ButtonPosition" Type="Int32" />
@@ -26,7 +26,7 @@
     </Key>
     <Property Name="HandID" Type="Int64" Nullable="false" />
     <Property Name="ActionID" Type="Int32" Nullable="false" />
-    <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="PlayerID" Type="Int64" />
     <Property Name="ActionName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
     <Property Name="Street" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Amount" Type="Decimal" />
@@ -35,23 +35,23 @@
     <Property Name="Is3Bet" Type="Boolean" />
     <Property Name="Is4Bet" Type="Boolean" />
     <NavigationProperty Name="hand" Relationship="Self.HandID_Action" FromRole="hand_action" ToRole="hand" />
-    <NavigationProperty Name="player" Relationship="Self.PlayerName_Action" FromRole="hand_action" ToRole="player" />
+    <NavigationProperty Name="player" Relationship="Self.PlayerID_Action" FromRole="hand_action" ToRole="player" />
   </EntityType>
   <EntityType Name="player">
     <Key>
-      <PropertyRef Name="Name" />
+      <PropertyRef Name="PlayerID" />
     </Key>
-    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Winnings" Type="Decimal" />
-    <NavigationProperty Name="hand_action" Relationship="Self.PlayerName_Action" FromRole="player" ToRole="hand_action" />
-    <NavigationProperty Name="plays" Relationship="Self.PlayerName" FromRole="player" ToRole="plays" />
+    <Property Name="PlayerID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="hand_action" Relationship="Self.PlayerID_Action" FromRole="player" ToRole="hand_action" />
+    <NavigationProperty Name="plays" Relationship="Self.PlayerID" FromRole="player" ToRole="plays" />
   </EntityType>
   <EntityType Name="play">
     <Key>
-      <PropertyRef Name="PlayerName" />
+      <PropertyRef Name="PlayerID" />
       <PropertyRef Name="HandID" />
     </Key>
-    <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="PlayerID" Type="Int64" Nullable="false" />
     <Property Name="HandID" Type="Int64" Nullable="false" />
     <Property Name="StartingStack" Type="Decimal" />
     <Property Name="EndingStack" Type="Decimal" />
@@ -59,17 +59,31 @@
     <Property Name="HoleCard1" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
     <Property Name="HoleCard2" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="hand" Relationship="Self.HandID" FromRole="plays" ToRole="hand" />
-    <NavigationProperty Name="player" Relationship="Self.PlayerName" FromRole="plays" ToRole="player" />
+    <NavigationProperty Name="player" Relationship="Self.PlayerID" FromRole="plays" ToRole="player" />
   </EntityType>
   <EntityType Name="table">
     <Key>
       <PropertyRef Name="TableID" />
     </Key>
-    <Property Name="TableID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="TableID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="MaxPlayers" Type="Int32" />
     <Property Name="Stakes" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
     <Property Name="Site" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="hands" Relationship="Self.TableID" FromRole="table" ToRole="hand" />
+  </EntityType>
+  <EntityType Name="player_stats">
+    <Key>
+      <PropertyRef Name="HandsPlayed" />
+    </Key>
+    <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+    <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
+    <Property Name="Winnings" Type="Decimal" />
+    <Property Name="VPIP" Type="Decimal" />
+    <Property Name="PFR" Type="Decimal" />
+    <Property Name="ThreeBet" Type="Decimal" />
+    <Property Name="FourBet" Type="Decimal" />
+    <Property Name="PFAF" Type="Decimal" />
   </EntityType>
   <Association Name="HandID">
     <End Role="hand" Type="Self.hand" Multiplicity="1">
@@ -111,29 +125,29 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="PlayerName_Action">
+  <Association Name="PlayerID_Action">
     <End Role="player" Type="Self.player" Multiplicity="0..1" />
     <End Role="hand_action" Type="Self.hand_action" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="player">
-        <PropertyRef Name="Name" />
+        <PropertyRef Name="PlayerID" />
       </Principal>
       <Dependent Role="hand_action">
-        <PropertyRef Name="PlayerName" />
+        <PropertyRef Name="PlayerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="PlayerName">
+  <Association Name="PlayerID">
     <End Role="player" Type="Self.player" Multiplicity="1">
       <OnDelete Action="Cascade" />
     </End>
     <End Role="plays" Type="Self.play" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="player">
-        <PropertyRef Name="Name" />
+        <PropertyRef Name="PlayerID" />
       </Principal>
       <Dependent Role="plays">
-        <PropertyRef Name="PlayerName" />
+        <PropertyRef Name="PlayerID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -143,6 +157,7 @@
     <EntitySet Name="players" EntityType="Self.player" />
     <EntitySet Name="plays" EntityType="Self.play" />
     <EntitySet Name="tables" EntityType="Self.table" />
+    <EntitySet Name="player_stats" EntityType="Self.player_stats" />
     <AssociationSet Name="HandID" Association="Self.HandID">
       <End Role="hand" EntitySet="hands" />
       <End Role="plays" EntitySet="plays" />
@@ -155,27 +170,13 @@
       <End Role="table" EntitySet="tables" />
       <End Role="hand" EntitySet="hands" />
     </AssociationSet>
-    <AssociationSet Name="PlayerName_Action" Association="Self.PlayerName_Action">
+    <AssociationSet Name="PlayerID_Action" Association="Self.PlayerID_Action">
       <End Role="player" EntitySet="players" />
       <End Role="hand_action" EntitySet="hand_action" />
     </AssociationSet>
-    <AssociationSet Name="PlayerName" Association="Self.PlayerName">
+    <AssociationSet Name="PlayerID" Association="Self.PlayerID">
       <End Role="player" EntitySet="players" />
       <End Role="plays" EntitySet="plays" />
     </AssociationSet>
-    <EntitySet Name="player_stats" EntityType="pokerModel.player_stats" />
   </EntityContainer>
-  <EntityType Name="player_stats">
-    <Key>
-      <PropertyRef Name="PlayerName" />
-    </Key>
-    <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
-    <Property Name="Winnings" Type="Decimal" />
-    <Property Name="VPIP" Type="Decimal" />
-    <Property Name="PFR" Type="Decimal" />
-    <Property Name="ThreeBet" Type="Decimal" />
-    <Property Name="FourBet" Type="Decimal" />
-    <Property Name="PFAF" Type="Decimal" />
-  </EntityType>
 </Schema>

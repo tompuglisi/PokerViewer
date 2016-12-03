@@ -16,7 +16,7 @@ namespace PokerViewer.Models
     {
         public long HandID { get; set; }
         public int ActionID { get; set; }
-        public string PlayerName { get; set; }
+        public Nullable<long> PlayerID { get; set; }
         public string ActionName { get; set; }
         public string Street { get; set; }
         public Nullable<decimal> Amount { get; set; }

@@ -4,13 +4,13 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="pokerModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="PokerDataModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="hand">
           <Key>
             <PropertyRef Name="HandID" />
           </Key>
           <Property Name="HandID" Type="bigint" Nullable="false" />
-          <Property Name="TableID" Type="varchar" MaxLength="100" />
+          <Property Name="TableID" Type="bigint" />
           <Property Name="NumPlayers" Type="int" />
           <Property Name="StartTime" Type="datetime" Precision="0" />
           <Property Name="ButtonPosition" Type="int" />
@@ -28,7 +28,7 @@
           </Key>
           <Property Name="HandID" Type="bigint" Nullable="false" />
           <Property Name="ActionID" Type="int" Nullable="false" />
-          <Property Name="PlayerName" Type="varchar" MaxLength="25" />
+          <Property Name="PlayerID" Type="bigint" />
           <Property Name="ActionName" Type="varchar" MaxLength="45" />
           <Property Name="Street" Type="varchar" MaxLength="10" />
           <Property Name="Amount" Type="decimal" Precision="10" Scale="0" />
@@ -39,17 +39,17 @@
         </EntityType>
         <EntityType Name="player">
           <Key>
-            <PropertyRef Name="Name" />
+            <PropertyRef Name="PlayerID" />
           </Key>
-          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="Winnings" Type="decimal" Precision="10" Scale="0" />
+          <Property Name="PlayerID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" />
         </EntityType>
         <EntityType Name="plays">
           <Key>
-            <PropertyRef Name="PlayerName" />
+            <PropertyRef Name="PlayerID" />
             <PropertyRef Name="HandID" />
           </Key>
-          <Property Name="PlayerName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="PlayerID" Type="bigint" Nullable="false" />
           <Property Name="HandID" Type="bigint" Nullable="false" />
           <Property Name="StartingStack" Type="decimal" Precision="10" Scale="0" />
           <Property Name="EndingStack" Type="decimal" Precision="10" Scale="0" />
@@ -61,7 +61,8 @@
           <Key>
             <PropertyRef Name="TableID" />
           </Key>
-          <Property Name="TableID" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="TableID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TableName" Type="varchar" MaxLength="50" />
           <Property Name="MaxPlayers" Type="int" />
           <Property Name="Stakes" Type="varchar" MaxLength="20" />
           <Property Name="Site" Type="varchar" MaxLength="45" />
@@ -70,9 +71,9 @@
 warning 6002: The table/view 'def.poker.player_stats' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="player_stats">
           <Key>
-            <PropertyRef Name="PlayerName" />
+            <PropertyRef Name="HandsPlayed" />
           </Key>
-          <Property Name="PlayerName" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" />
           <Property Name="HandsPlayed" Type="bigint" Nullable="false" />
           <Property Name="Winnings" Type="decimal" Precision="32" Scale="0" />
           <Property Name="VPIP" Type="decimal" Precision="24" Scale="4" />
@@ -109,29 +110,29 @@ warning 6002: The table/view 'def.poker.player_stats' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PlayerName">
+        <Association Name="PlayerID">
           <End Role="player" Type="Self.player" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="plays" Type="Self.plays" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="player">
-              <PropertyRef Name="Name" />
+              <PropertyRef Name="PlayerID" />
             </Principal>
             <Dependent Role="plays">
-              <PropertyRef Name="PlayerName" />
+              <PropertyRef Name="PlayerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PlayerName_Action">
+        <Association Name="PlayerID_Action">
           <End Role="player" Type="Self.player" Multiplicity="0..1" />
           <End Role="hand_action" Type="Self.hand_action" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="player">
-              <PropertyRef Name="Name" />
+              <PropertyRef Name="PlayerID" />
             </Principal>
             <Dependent Role="hand_action">
-              <PropertyRef Name="PlayerName" />
+              <PropertyRef Name="PlayerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -147,7 +148,7 @@ warning 6002: The table/view 'def.poker.player_stats' does not have a primary ke
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="pokerModelStoreContainer">
+        <EntityContainer Name="PokerDataModelStoreContainer">
           <EntitySet Name="hand" EntityType="Self.hand" Schema="poker" store:Type="Tables" />
           <EntitySet Name="hand_action" EntityType="Self.hand_action" Schema="poker" store:Type="Tables" />
           <EntitySet Name="player" EntityType="Self.player" Schema="poker" store:Type="Tables" />
@@ -155,7 +156,7 @@ warning 6002: The table/view 'def.poker.player_stats' does not have a primary ke
           <EntitySet Name="table" EntityType="Self.table" Schema="poker" store:Type="Tables" />
           <EntitySet Name="player_stats" EntityType="Self.player_stats" store:Type="Views" store:Schema="poker">
             <DefiningQuery>SELECT
-`player_stats`.`PlayerName`, 
+`player_stats`.`Name`, 
 `player_stats`.`HandsPlayed`, 
 `player_stats`.`Winnings`, 
 `player_stats`.`VPIP`, 
@@ -173,11 +174,11 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <End Role="hand" EntitySet="hand" />
             <End Role="hand_action" EntitySet="hand_action" />
           </AssociationSet>
-          <AssociationSet Name="PlayerName" Association="Self.PlayerName">
+          <AssociationSet Name="PlayerID" Association="Self.PlayerID">
             <End Role="player" EntitySet="player" />
             <End Role="plays" EntitySet="plays" />
           </AssociationSet>
-          <AssociationSet Name="PlayerName_Action" Association="Self.PlayerName_Action">
+          <AssociationSet Name="PlayerID_Action" Association="Self.PlayerID_Action">
             <End Role="player" EntitySet="player" />
             <End Role="hand_action" EntitySet="hand_action" />
           </AssociationSet>
@@ -186,16 +187,17 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <End Role="hand" EntitySet="hand" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="pokerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="PokerDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="hand">
           <Key>
             <PropertyRef Name="HandID" />
           </Key>
           <Property Name="HandID" Type="Int64" Nullable="false" />
-          <Property Name="TableID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="TableID" Type="Int64" />
           <Property Name="NumPlayers" Type="Int32" />
           <Property Name="StartTime" Type="DateTime" />
           <Property Name="ButtonPosition" Type="Int32" />
@@ -216,7 +218,7 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
           </Key>
           <Property Name="HandID" Type="Int64" Nullable="false" />
           <Property Name="ActionID" Type="Int32" Nullable="false" />
-          <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PlayerID" Type="Int64" />
           <Property Name="ActionName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Name="Street" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Amount" Type="Decimal" />
@@ -225,23 +227,23 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
           <Property Name="Is3Bet" Type="Boolean" />
           <Property Name="Is4Bet" Type="Boolean" />
           <NavigationProperty Name="hand" Relationship="Self.HandID_Action" FromRole="hand_action" ToRole="hand" />
-          <NavigationProperty Name="player" Relationship="Self.PlayerName_Action" FromRole="hand_action" ToRole="player" />
+          <NavigationProperty Name="player" Relationship="Self.PlayerID_Action" FromRole="hand_action" ToRole="player" />
         </EntityType>
         <EntityType Name="player">
           <Key>
-            <PropertyRef Name="Name" />
+            <PropertyRef Name="PlayerID" />
           </Key>
-          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Winnings" Type="Decimal" />
-          <NavigationProperty Name="hand_action" Relationship="Self.PlayerName_Action" FromRole="player" ToRole="hand_action" />
-          <NavigationProperty Name="plays" Relationship="Self.PlayerName" FromRole="player" ToRole="plays" />
+          <Property Name="PlayerID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="hand_action" Relationship="Self.PlayerID_Action" FromRole="player" ToRole="hand_action" />
+          <NavigationProperty Name="plays" Relationship="Self.PlayerID" FromRole="player" ToRole="plays" />
         </EntityType>
         <EntityType Name="play">
           <Key>
-            <PropertyRef Name="PlayerName" />
+            <PropertyRef Name="PlayerID" />
             <PropertyRef Name="HandID" />
           </Key>
-          <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PlayerID" Type="Int64" Nullable="false" />
           <Property Name="HandID" Type="Int64" Nullable="false" />
           <Property Name="StartingStack" Type="Decimal" />
           <Property Name="EndingStack" Type="Decimal" />
@@ -249,17 +251,31 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
           <Property Name="HoleCard1" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <Property Name="HoleCard2" Type="String" MaxLength="2" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="hand" Relationship="Self.HandID" FromRole="plays" ToRole="hand" />
-          <NavigationProperty Name="player" Relationship="Self.PlayerName" FromRole="plays" ToRole="player" />
+          <NavigationProperty Name="player" Relationship="Self.PlayerID" FromRole="plays" ToRole="player" />
         </EntityType>
         <EntityType Name="table">
           <Key>
             <PropertyRef Name="TableID" />
           </Key>
-          <Property Name="TableID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TableID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MaxPlayers" Type="Int32" />
           <Property Name="Stakes" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Site" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="hands" Relationship="Self.TableID" FromRole="table" ToRole="hand" />
+        </EntityType>
+        <EntityType Name="player_stats">
+          <Key>
+            <PropertyRef Name="HandsPlayed" />
+          </Key>
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
+          <Property Name="Winnings" Type="Decimal" />
+          <Property Name="VPIP" Type="Decimal" />
+          <Property Name="PFR" Type="Decimal" />
+          <Property Name="ThreeBet" Type="Decimal" />
+          <Property Name="FourBet" Type="Decimal" />
+          <Property Name="PFAF" Type="Decimal" />
         </EntityType>
         <Association Name="HandID">
           <End Role="hand" Type="Self.hand" Multiplicity="1">
@@ -301,29 +317,29 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PlayerName_Action">
+        <Association Name="PlayerID_Action">
           <End Role="player" Type="Self.player" Multiplicity="0..1" />
           <End Role="hand_action" Type="Self.hand_action" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="player">
-              <PropertyRef Name="Name" />
+              <PropertyRef Name="PlayerID" />
             </Principal>
             <Dependent Role="hand_action">
-              <PropertyRef Name="PlayerName" />
+              <PropertyRef Name="PlayerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="PlayerName">
+        <Association Name="PlayerID">
           <End Role="player" Type="Self.player" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
           <End Role="plays" Type="Self.play" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="player">
-              <PropertyRef Name="Name" />
+              <PropertyRef Name="PlayerID" />
             </Principal>
             <Dependent Role="plays">
-              <PropertyRef Name="PlayerName" />
+              <PropertyRef Name="PlayerID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -333,6 +349,7 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
           <EntitySet Name="players" EntityType="Self.player" />
           <EntitySet Name="plays" EntityType="Self.play" />
           <EntitySet Name="tables" EntityType="Self.table" />
+          <EntitySet Name="player_stats" EntityType="Self.player_stats" />
           <AssociationSet Name="HandID" Association="Self.HandID">
             <End Role="hand" EntitySet="hands" />
             <End Role="plays" EntitySet="plays" />
@@ -345,37 +362,23 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <End Role="table" EntitySet="tables" />
             <End Role="hand" EntitySet="hands" />
           </AssociationSet>
-          <AssociationSet Name="PlayerName_Action" Association="Self.PlayerName_Action">
+          <AssociationSet Name="PlayerID_Action" Association="Self.PlayerID_Action">
             <End Role="player" EntitySet="players" />
             <End Role="hand_action" EntitySet="hand_action" />
           </AssociationSet>
-          <AssociationSet Name="PlayerName" Association="Self.PlayerName">
+          <AssociationSet Name="PlayerID" Association="Self.PlayerID">
             <End Role="player" EntitySet="players" />
             <End Role="plays" EntitySet="plays" />
           </AssociationSet>
-          <EntitySet Name="player_stats" EntityType="pokerModel.player_stats" />
         </EntityContainer>
-        <EntityType Name="player_stats">
-          <Key>
-            <PropertyRef Name="PlayerName" />
-          </Key>
-          <Property Name="PlayerName" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
-          <Property Name="Winnings" Type="Decimal" />
-          <Property Name="VPIP" Type="Decimal" />
-          <Property Name="PFR" Type="Decimal" />
-          <Property Name="ThreeBet" Type="Decimal" />
-          <Property Name="FourBet" Type="Decimal" />
-          <Property Name="PFAF" Type="Decimal" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="pokerModelStoreContainer" CdmEntityContainer="PokerDB">
+        <EntityContainerMapping StorageEntityContainer="PokerDataModelStoreContainer" CdmEntityContainer="PokerDB">
           <EntitySetMapping Name="hands">
-            <EntityTypeMapping TypeName="pokerModel.hand">
+            <EntityTypeMapping TypeName="PokerDataModel.hand">
               <MappingFragment StoreEntitySet="hand">
                 <ScalarProperty Name="HandID" ColumnName="HandID" />
                 <ScalarProperty Name="TableID" ColumnName="TableID" />
@@ -392,11 +395,11 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="hand_action">
-            <EntityTypeMapping TypeName="pokerModel.hand_action">
+            <EntityTypeMapping TypeName="PokerDataModel.hand_action">
               <MappingFragment StoreEntitySet="hand_action">
                 <ScalarProperty Name="HandID" ColumnName="HandID" />
                 <ScalarProperty Name="ActionID" ColumnName="ActionID" />
-                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
                 <ScalarProperty Name="ActionName" ColumnName="ActionName" />
                 <ScalarProperty Name="Street" ColumnName="Street" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
@@ -408,17 +411,17 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="players">
-            <EntityTypeMapping TypeName="pokerModel.player">
+            <EntityTypeMapping TypeName="PokerDataModel.player">
               <MappingFragment StoreEntitySet="player">
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="plays">
-            <EntityTypeMapping TypeName="pokerModel.play">
+            <EntityTypeMapping TypeName="PokerDataModel.play">
               <MappingFragment StoreEntitySet="plays">
-                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
                 <ScalarProperty Name="HandID" ColumnName="HandID" />
                 <ScalarProperty Name="StartingStack" ColumnName="StartingStack" />
                 <ScalarProperty Name="EndingStack" ColumnName="EndingStack" />
@@ -429,9 +432,10 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tables">
-            <EntityTypeMapping TypeName="pokerModel.table">
+            <EntityTypeMapping TypeName="PokerDataModel.table">
               <MappingFragment StoreEntitySet="table">
                 <ScalarProperty Name="TableID" ColumnName="TableID" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
                 <ScalarProperty Name="MaxPlayers" ColumnName="MaxPlayers" />
                 <ScalarProperty Name="Stakes" ColumnName="Stakes" />
                 <ScalarProperty Name="Site" ColumnName="Site" />
@@ -439,16 +443,16 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="player_stats">
-            <EntityTypeMapping TypeName="pokerModel.player_stats">
+            <EntityTypeMapping TypeName="PokerDataModel.player_stats">
               <MappingFragment StoreEntitySet="player_stats">
-                <ScalarProperty Name="PFAF" ColumnName="PFAF" />
-                <ScalarProperty Name="FourBet" ColumnName="FourBet" />
-                <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
-                <ScalarProperty Name="PFR" ColumnName="PFR" />
-                <ScalarProperty Name="VPIP" ColumnName="VPIP" />
-                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="HandsPlayed" ColumnName="HandsPlayed" />
-                <ScalarProperty Name="PlayerName" ColumnName="PlayerName" />
+                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+                <ScalarProperty Name="VPIP" ColumnName="VPIP" />
+                <ScalarProperty Name="PFR" ColumnName="PFR" />
+                <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
+                <ScalarProperty Name="FourBet" ColumnName="FourBet" />
+                <ScalarProperty Name="PFAF" ColumnName="PFAF" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,7 +14,7 @@ namespace PokerViewer.Models
     
     public partial class play
     {
-        public string PlayerName { get; set; }
+        public long PlayerID { get; set; }
         public long HandID { get; set; }
         public Nullable<decimal> StartingStack { get; set; }
         public Nullable<decimal> EndingStack { get; set; }

@@ -59,7 +59,7 @@ namespace PokerViewer.Controllers
             }
 
             ViewBag.HandID = new SelectList(db.hands, "HandID", "TableID", play.HandID);
-            ViewBag.PlayerName = new SelectList(db.players, "Name", "Name", play.PlayerName);
+            ViewBag.PlayerID = new SelectList(db.players, "Name", "Name", play.PlayerID);
             return View(play);
         }
 
@@ -76,7 +76,7 @@ namespace PokerViewer.Controllers
                 return HttpNotFound();
             }
             ViewBag.HandID = new SelectList(db.hands, "HandID", "TableID", play.HandID);
-            ViewBag.PlayerName = new SelectList(db.players, "Name", "Name", play.PlayerName);
+            ViewBag.PlayerID = new SelectList(db.players, "Name", "Name", play.PlayerID);
             return View(play);
         }
 
@@ -94,7 +94,7 @@ namespace PokerViewer.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.HandID = new SelectList(db.hands, "HandID", "TableID", play.HandID);
-            ViewBag.PlayerName = new SelectList(db.players, "Name", "Name", play.PlayerName);
+            ViewBag.PlayerID = new SelectList(db.players, "Name", "Name", play.PlayerID);
             return View(play);
         }
 

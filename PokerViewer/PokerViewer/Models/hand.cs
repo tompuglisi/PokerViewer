@@ -22,7 +22,7 @@ namespace PokerViewer.Models
         }
     
         public long HandID { get; set; }
-        public string TableID { get; set; }
+        public Nullable<long> TableID { get; set; }
         public Nullable<int> NumPlayers { get; set; }
         public Nullable<System.DateTime> StartTime { get; set; }
         public Nullable<int> ButtonPosition { get; set; }

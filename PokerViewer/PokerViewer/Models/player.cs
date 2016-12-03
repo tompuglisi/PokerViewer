@@ -11,7 +11,8 @@ namespace PokerViewer.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class player
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,9 +21,8 @@ namespace PokerViewer.Models
             this.hand_action = new HashSet<hand_action>();
             this.plays = new HashSet<play>();
         }
-    
+        public long PlayerID { get; set; }
         public string Name { get; set; }
-        public Nullable<decimal> Winnings { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<hand_action> hand_action { get; set; }

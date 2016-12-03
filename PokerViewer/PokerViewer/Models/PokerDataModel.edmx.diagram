@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7222e5a034134204a73bedd51c68d72b" Name="Diagram1">
-        <EntityTypeShape EntityType="pokerModel.hand" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="pokerModel.hand_action" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="pokerModel.player" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="pokerModel.play" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="pokerModel.table" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
-        <AssociationConnector Association="pokerModel.HandID" ManuallyRouted="false" />
-        <AssociationConnector Association="pokerModel.HandID_Action" ManuallyRouted="false" />
-        <AssociationConnector Association="pokerModel.TableID" ManuallyRouted="false" />
-        <AssociationConnector Association="pokerModel.PlayerName_Action" ManuallyRouted="false" />
-        <AssociationConnector Association="pokerModel.PlayerName" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="pokerModel.player_stats" Width="1.5" PointX="7.375" PointY="7.75" />
+      <Diagram DiagramId="e165d1f730964ff2b7e63f46d2ce9fdb" Name="Diagram1">
+        <EntityTypeShape EntityType="PokerDataModel.hand" Width="1.5" PointX="3" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PokerDataModel.hand_action" Width="1.5" PointX="5.25" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="PokerDataModel.player" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="PokerDataModel.play" Width="1.5" PointX="8.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PokerDataModel.table" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="PokerDataModel.player_stats" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="PokerDataModel.HandID" ManuallyRouted="false" />
+        <AssociationConnector Association="PokerDataModel.HandID_Action" ManuallyRouted="false" />
+        <AssociationConnector Association="PokerDataModel.TableID" ManuallyRouted="false" />
+        <AssociationConnector Association="PokerDataModel.PlayerID_Action" ManuallyRouted="false" />
+        <AssociationConnector Association="PokerDataModel.PlayerID" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
