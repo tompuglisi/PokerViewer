@@ -21,14 +21,36 @@ namespace PokerViewer.Controllers
         }
 
         // GET: player_stats/Details/5
-        public ActionResult Details(long id)
+        public ActionResult Details(long? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             player_stats player_stats = db.player_stats.Find(id);
             if (player_stats == null)
             {
                 return HttpNotFound();
             }
             return View(player_stats);
+        }
+
+        // GET: players/Create
+        public ActionResult Create()
+        {
+            return RedirectToAction("Create", "players");
+        }
+
+        // GET: players/Edit/5
+        public ActionResult Edit(long? id)
+        {
+            return RedirectToAction("Edit", "players", id);
+        }
+
+        // GET: players/Delete/5
+        public ActionResult Delete(long? id)
+        {
+            return RedirectToAction("Delete", "players", id);
         }
     }
 }

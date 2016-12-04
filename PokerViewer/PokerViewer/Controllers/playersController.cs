@@ -17,11 +17,12 @@ namespace PokerViewer.Controllers
         // GET: players
         public ActionResult Index()
         {
-            return View(db.players.ToList());
+            //return View(db.players.ToList());
+            return RedirectToAction("Index", "player_stats");
         }
 
         // GET: players/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(long? id)
         {
             if (id == null)
             {
@@ -32,9 +33,7 @@ namespace PokerViewer.Controllers
             {
                 return HttpNotFound();
             }
-            return RedirectToAction("Details", "player_stats", player.Name);
-            //string query = "SELECT * FROM player_stats WHERE PlayerName = @p0";
-            //db.player_stats.SqlQuery(query, player.Name);
+            return RedirectToAction("Details", "player_stats", id);
             //return View(player);
         }
 
@@ -49,7 +48,7 @@ namespace PokerViewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Winnings")] player player)
+        public ActionResult Create([Bind(Include = "Name")] player player)
         {
             if (ModelState.IsValid)
             {
@@ -62,7 +61,7 @@ namespace PokerViewer.Controllers
         }
 
         // GET: players/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(long? id)
         {
             if (id == null)
             {
@@ -81,7 +80,7 @@ namespace PokerViewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name,Winnings")] player player)
+        public ActionResult Edit([Bind(Include = "PlayerID,Name")] player player)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +92,7 @@ namespace PokerViewer.Controllers
         }
 
         // GET: players/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(long? id)
         {
             if (id == null)
             {
@@ -110,7 +109,7 @@ namespace PokerViewer.Controllers
         // POST: players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(long? id)
         {
             player player = db.players.Find(id);
             db.players.Remove(player);

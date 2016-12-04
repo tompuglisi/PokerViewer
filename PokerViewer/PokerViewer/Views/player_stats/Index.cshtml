@@ -4,8 +4,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Player Stats Index</h2>
-
+<h2>Player Index</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
 <table class="table">
     <tr>
         <th>
@@ -62,7 +64,9 @@
             @Html.DisplayFor(modelItem => item.PFAF)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", new { id=item.PlayerID }) |
+            @Html.ActionLink("Edit", "Edit", "players", new { id = item.PlayerID }, null) |
+            @Html.ActionLink("Details", "Details", new { id = item.PlayerID }) |
+            @Html.ActionLink("Delete", "Delete", "players", new { id = item.PlayerID }, null)
         </td>
     </tr>
 }
