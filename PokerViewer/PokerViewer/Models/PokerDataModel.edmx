@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PokerDataModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PokerDataModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.7" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="hand">
           <Key>
             <PropertyRef Name="HandID" />
@@ -42,7 +42,7 @@
             <PropertyRef Name="PlayerID" />
           </Key>
           <Property Name="PlayerID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="25" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="plays">
           <Key>
@@ -62,7 +62,7 @@
             <PropertyRef Name="TableID" />
           </Key>
           <Property Name="TableID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TableName" Type="varchar" MaxLength="50" />
+          <Property Name="TableName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="MaxPlayers" Type="int" />
           <Property Name="Stakes" Type="varchar" MaxLength="20" />
           <Property Name="Site" Type="varchar" MaxLength="45" />
@@ -71,9 +71,10 @@
 warning 6002: The table/view 'def.poker.player_stats' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="player_stats">
           <Key>
-            <PropertyRef Name="HandsPlayed" />
+            <PropertyRef Name="PlayerID" />
           </Key>
-          <Property Name="Name" Type="varchar" MaxLength="25" />
+          <Property Name="PlayerID" Type="bigint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
           <Property Name="HandsPlayed" Type="bigint" Nullable="false" />
           <Property Name="Winnings" Type="decimal" Precision="32" Scale="0" />
           <Property Name="VPIP" Type="decimal" Precision="24" Scale="4" />
@@ -156,6 +157,7 @@ warning 6002: The table/view 'def.poker.player_stats' does not have a primary ke
           <EntitySet Name="table" EntityType="Self.table" Schema="poker" store:Type="Tables" />
           <EntitySet Name="player_stats" EntityType="Self.player_stats" store:Type="Views" store:Schema="poker">
             <DefiningQuery>SELECT
+`player_stats`.`PlayerID`, 
 `player_stats`.`Name`, 
 `player_stats`.`HandsPlayed`, 
 `player_stats`.`Winnings`, 
@@ -187,8 +189,7 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <End Role="hand" EntitySet="hand" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PokerDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -234,7 +235,7 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <PropertyRef Name="PlayerID" />
           </Key>
           <Property Name="PlayerID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="hand_action" Relationship="Self.PlayerID_Action" FromRole="player" ToRole="hand_action" />
           <NavigationProperty Name="plays" Relationship="Self.PlayerID" FromRole="player" ToRole="plays" />
         </EntityType>
@@ -258,7 +259,7 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <PropertyRef Name="TableID" />
           </Key>
           <Property Name="TableID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="TableName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="MaxPlayers" Type="Int32" />
           <Property Name="Stakes" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Site" Type="String" MaxLength="45" FixedLength="false" Unicode="false" />
@@ -266,9 +267,10 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
         </EntityType>
         <EntityType Name="player_stats">
           <Key>
-            <PropertyRef Name="HandsPlayed" />
+            <PropertyRef Name="PlayerID" />
           </Key>
-          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="PlayerID" Type="Int64" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
           <Property Name="Winnings" Type="Decimal" />
           <Property Name="VPIP" Type="Decimal" />
@@ -445,6 +447,7 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
           <EntitySetMapping Name="player_stats">
             <EntityTypeMapping TypeName="PokerDataModel.player_stats">
               <MappingFragment StoreEntitySet="player_stats">
+                <ScalarProperty Name="PlayerID" ColumnName="PlayerID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="HandsPlayed" ColumnName="HandsPlayed" />
                 <ScalarProperty Name="Winnings" ColumnName="Winnings" />

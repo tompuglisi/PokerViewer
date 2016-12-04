@@ -21,12 +21,8 @@ namespace PokerViewer.Controllers
         }
 
         // GET: player_stats/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             player_stats player_stats = db.player_stats.Find(id);
             if (player_stats == null)
             {

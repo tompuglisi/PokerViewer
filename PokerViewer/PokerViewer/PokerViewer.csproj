@@ -361,10 +361,7 @@
     <Content Include="Views\plays\Edit.cshtml" />
     <Content Include="Views\plays\Index.cshtml" />
     <Content Include="Views\Add\Result.cshtml" />
-    <Content Include="Views\player_stats\Create.cshtml" />
-    <Content Include="Views\player_stats\Delete.cshtml" />
     <Content Include="Views\player_stats\Details.cshtml" />
-    <Content Include="Views\player_stats\Edit.cshtml" />
     <Content Include="Views\player_stats\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>

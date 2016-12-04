@@ -14,6 +14,7 @@ namespace PokerViewer.Models
     
     public partial class player_stats
     {
+        public long PlayerID { get; set; }
         public string Name { get; set; }
         public long HandsPlayed { get; set; }
         public Nullable<decimal> Winnings { get; set; }
