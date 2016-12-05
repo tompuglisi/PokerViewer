@@ -33,7 +33,7 @@ namespace PokerViewer.Controllers
             {
                 return HttpNotFound();
             }
-            return RedirectToAction("Details", "player_stats", id);
+            return RedirectToAction("Details", "player_stats", new { id = id });
             //return View(player);
         }
 

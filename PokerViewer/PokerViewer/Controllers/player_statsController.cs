@@ -44,13 +44,13 @@ namespace PokerViewer.Controllers
         // GET: players/Edit/5
         public ActionResult Edit(long? id)
         {
-            return RedirectToAction("Edit", "players", id);
+            return RedirectToAction("Edit", "players", new { id = id });
         }
 
         // GET: players/Delete/5
         public ActionResult Delete(long? id)
         {
-            return RedirectToAction("Delete", "players", id);
+            return RedirectToAction("Delete", "players", new { id = id });
         }
     }
 }
