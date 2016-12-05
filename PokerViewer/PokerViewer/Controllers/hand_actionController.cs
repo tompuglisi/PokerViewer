@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PokerViewer.Models;
+using PagedList;
 
 namespace PokerViewer.Controllers
 {
@@ -15,12 +16,20 @@ namespace PokerViewer.Controllers
         private PokerDB db = new PokerDB();
 
         // GET: hand_action
-        public ActionResult Index()
-        {
-            var hand_action = db.hand_action.Include(h => h.hand).Include(h => h.player);
-            return View(hand_action.ToList());
+        public ActionResult Index(int? itemsPerPage,int ? page)
+	
+		{
+			
+			ViewBag.CurrentItemsPerPage = itemsPerPage;
+
+			var hand_action = db.hand_action.Include(h => h.hand).Include(h => h.player);
+		    
+			return View(hand_action.ToList().ToPagedList(pageNumber: page ?? 1, pageSize: itemsPerPage ?? 25));
+
+		
         }
 
+		
         // GET: hand_action/Details/5
         public ActionResult Details(long? id)
         {
@@ -94,7 +103,7 @@ namespace PokerViewer.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.HandID = new SelectList(db.hands, "HandID", "TableID", hand_action.HandID);
-            ViewBag.PlayerID = new SelectList(db.players, "Name", "Name", hand_action.PlayerID);
+			ViewBag.PlayerID = new SelectList(db.players, "Name", "Name", hand_action.PlayerID);
             return View(hand_action);
         }
 

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PokerViewer.Models;
+using PagedList;
 
 namespace PokerViewer.Controllers
 {
@@ -15,10 +16,11 @@ namespace PokerViewer.Controllers
         private PokerDB db = new PokerDB();
 
         // GET: hands
-        public ActionResult Index()
+		public ActionResult Index(int? itemsPerPage, int? page)
         {
             var hands = db.hands.Include(h => h.table);
-            return View(hands.ToList());
+			return View(hands.ToList().ToPagedList(pageNumber: page ?? 1, pageSize: itemsPerPage ?? 25));
+            
         }
 
         // GET: hands/Details/5

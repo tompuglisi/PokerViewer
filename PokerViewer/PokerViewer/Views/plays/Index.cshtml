@@ -1,7 +1,17 @@
-﻿@model IEnumerable<PokerViewer.Models.play>
+﻿@model PagedList.IPagedList<PokerViewer.Models.play>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
+	SelectList itemsPerPageList = DefaultValues.ItemsPerPageList;
+
+
 }
 
 <h2>Index</h2>
@@ -12,25 +22,25 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.StartingStack)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().StartingStack)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EndingStack)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().EndingStack)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SeatPosition)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().SeatPosition)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HoleCard1)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().HoleCard1)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HoleCard2)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().HoleCard2)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.hand.TableID)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().hand.TableID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.player.Name)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().player.Name)
         </th>
         <th></th>
     </tr>
@@ -67,3 +77,6 @@
 }
 
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, itemsPerPage = ViewBag.CurrentItemsPerPage }))
