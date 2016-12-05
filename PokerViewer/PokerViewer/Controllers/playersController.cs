@@ -17,24 +17,13 @@ namespace PokerViewer.Controllers
         // GET: players
         public ActionResult Index()
         {
-            //return View(db.players.ToList());
             return RedirectToAction("Index", "player_stats");
         }
 
         // GET: players/Details/5
         public ActionResult Details(long? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            player player = db.players.Find(id);
-            if (player == null)
-            {
-                return HttpNotFound();
-            }
             return RedirectToAction("Details", "player_stats", new { id = id });
-            //return View(player);
         }
 
         // GET: players/Create
