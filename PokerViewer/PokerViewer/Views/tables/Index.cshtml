@@ -1,7 +1,17 @@
-﻿@model IEnumerable<PokerViewer.Models.table>
+﻿@model PagedList.IPagedList<PokerViewer.Models.table>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Index";
+	SelectList itemsPerPageList = DefaultValues.ItemsPerPageList;
+
+
 }
 
 <h2>Index</h2>
@@ -12,16 +22,16 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TableID)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TableID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MaxPlayers)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MaxPlayers)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Stakes)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Stakes)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Site)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Site)
         </th>
         <th></th>
     </tr>
@@ -49,3 +59,7 @@
 }
 
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, itemsPerPage = ViewBag.CurrentItemsPerPage }))
+

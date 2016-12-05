@@ -11,12 +11,13 @@ namespace PokerViewer.Models
 {
     using System;
     using System.Collections.Generic;
+	using PagedList;
     
     public partial class hand_action
     {
         public long HandID { get; set; }
         public int ActionID { get; set; }
-        public Nullable<long> PlayerID { get; set; }
+         public Nullable<long> PlayerID { get; set; }
         public string ActionName { get; set; }
         public string Street { get; set; }
         public Nullable<decimal> Amount { get; set; }
@@ -29,3 +30,4 @@ namespace PokerViewer.Models
         public virtual player player { get; set; }
     }
 }
+

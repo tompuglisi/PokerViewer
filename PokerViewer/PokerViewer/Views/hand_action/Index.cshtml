@@ -1,7 +1,17 @@
-﻿@model IEnumerable<PokerViewer.Models.hand_action>
+﻿@model PagedList.IPagedList<PokerViewer.Models.hand_action>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
 
 @{
     ViewBag.Title = "Index";
+	SelectList itemsPerPageList = DefaultValues.ItemsPerPageList;
+
+	
 }
 
 <h2>Index</h2>
@@ -12,22 +22,23 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.HandID)
+
+            @Html.DisplayNameFor(model => model.FirstOrDefault().HandID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActionID)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ActionID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PlayerName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PlayerID)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ActionName)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ActionName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Street)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Street)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Amount)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Amount)
         </th>
         <th></th>
     </tr>
@@ -41,7 +52,7 @@
             @Html.DisplayFor(modelItem => item.ActionID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PlayerName)
+            @Html.DisplayFor(modelItem => item.PlayerID)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ActionName)
@@ -61,3 +72,9 @@
 }
 
 </table>
+<br />
+
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",  new { page, itemsPerPage = ViewBag.CurrentItemsPerPage }))
