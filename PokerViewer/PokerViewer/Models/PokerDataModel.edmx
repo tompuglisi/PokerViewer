@@ -68,10 +68,25 @@
           <Property Name="Site" Type="varchar" MaxLength="45" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'def.poker.player_matchups' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="player_matchups">
+          <Key>
+            <PropertyRef Name="Player1_ID" />
+            <PropertyRef Name="Player2_ID" />
+          </Key>
+          <Property Name="Player1_ID" Type="bigint" Nullable="false" />
+          <Property Name="Player2_ID" Type="bigint" Nullable="false" />
+          <Property Name="Player1_Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="Player2_Name" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="HandsPlayed" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'def.poker.player_stats' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="player_stats">
           <Key>
             <PropertyRef Name="PlayerID" />
+            
+            
           </Key>
           <Property Name="PlayerID" Type="bigint" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="25" Nullable="false" />
@@ -155,6 +170,15 @@ warning 6002: The table/view 'def.poker.player_stats' does not have a primary ke
           <EntitySet Name="player" EntityType="Self.player" Schema="poker" store:Type="Tables" />
           <EntitySet Name="plays" EntityType="Self.plays" Schema="poker" store:Type="Tables" />
           <EntitySet Name="table" EntityType="Self.table" Schema="poker" store:Type="Tables" />
+          <EntitySet Name="player_matchups" EntityType="Self.player_matchups" store:Type="Views" store:Schema="poker">
+            <DefiningQuery>SELECT
+`player_matchups`.`Player1_ID`, 
+`player_matchups`.`Player2_ID`, 
+`player_matchups`.`Player1_Name`, 
+`player_matchups`.`Player2_Name`, 
+`player_matchups`.`HandsPlayed`
+FROM `player_matchups` AS `player_matchups`</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="player_stats" EntityType="Self.player_stats" store:Type="Views" store:Schema="poker">
             <DefiningQuery>SELECT
 `player_stats`.`PlayerID`, 
@@ -372,7 +396,19 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
             <End Role="player" EntitySet="players" />
             <End Role="plays" EntitySet="plays" />
           </AssociationSet>
+          <EntitySet Name="player_matchups" EntityType="PokerDataModel.player_matchups" />
         </EntityContainer>
+        <EntityType Name="player_matchups">
+          <Key>
+            <PropertyRef Name="Player1_ID" />
+            <PropertyRef Name="Player2_ID" />
+          </Key>
+          <Property Name="Player1_ID" Type="Int64" Nullable="false" />
+          <Property Name="Player2_ID" Type="Int64" Nullable="false" />
+          <Property Name="Player1_Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="Player2_Name" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="HandsPlayed" Type="Int64" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -456,6 +492,17 @@ FROM `player_stats` AS `player_stats`</DefiningQuery>
                 <ScalarProperty Name="ThreeBet" ColumnName="ThreeBet" />
                 <ScalarProperty Name="FourBet" ColumnName="FourBet" />
                 <ScalarProperty Name="PFAF" ColumnName="PFAF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="player_matchups">
+            <EntityTypeMapping TypeName="PokerDataModel.player_matchups">
+              <MappingFragment StoreEntitySet="player_matchups">
+                <ScalarProperty Name="HandsPlayed" ColumnName="HandsPlayed" />
+                <ScalarProperty Name="Player2_Name" ColumnName="Player2_Name" />
+                <ScalarProperty Name="Player1_Name" ColumnName="Player1_Name" />
+                <ScalarProperty Name="Player2_ID" ColumnName="Player2_ID" />
+                <ScalarProperty Name="Player1_ID" ColumnName="Player1_ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

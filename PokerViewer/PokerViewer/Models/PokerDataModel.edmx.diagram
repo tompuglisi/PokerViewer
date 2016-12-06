@@ -16,6 +16,7 @@
         <AssociationConnector Association="PokerDataModel.TableID" ManuallyRouted="false" />
         <AssociationConnector Association="PokerDataModel.PlayerID_Action" ManuallyRouted="false" />
         <AssociationConnector Association="PokerDataModel.PlayerID" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PokerDataModel.player_matchups" Width="1.5" PointX="0.75" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

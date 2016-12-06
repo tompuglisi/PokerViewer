@@ -202,6 +202,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\playersController.cs" />
+    <Compile Include="Controllers\player_matchupsController.cs" />
     <Compile Include="Controllers\player_statsController.cs" />
     <Compile Include="Controllers\playsController.cs" />
     <Compile Include="Controllers\tablesController.cs" />
@@ -222,6 +223,9 @@
       <DependentUpon>PokerDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\player.cs">
+      <DependentUpon>PokerDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\player_matchups.cs">
       <DependentUpon>PokerDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\player_stats.cs">
@@ -386,6 +390,7 @@
     <Content Include="Views\player_stats\Details.cshtml" />
     <Content Include="Views\player_stats\Edit.cshtml" />
     <Content Include="Views\player_stats\Index.cshtml" />
+    <Content Include="Views\player_matchups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

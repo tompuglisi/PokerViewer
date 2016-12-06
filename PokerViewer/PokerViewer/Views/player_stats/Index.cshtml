@@ -43,7 +43,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HandsPlayed)
+            @Html.ActionLink(item.HandsPlayed.ToString(), "Index", "player_matchups", new { id = item.PlayerID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Winnings)
