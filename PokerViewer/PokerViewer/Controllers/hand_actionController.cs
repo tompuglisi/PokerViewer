@@ -16,18 +16,92 @@ namespace PokerViewer.Controllers
         private PokerDB db = new PokerDB();
 
         // GET: hand_action
-        public ActionResult Index(int? itemsPerPage,int ? page)
+		public ActionResult Index(int? itemsPerPage, int? page, string sortOrder, string searchString, string currentFilter)
 	
 		{
-			
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.IdSortParm = sortOrder == "id" ? "id_desc" : "id";  //String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+			ViewBag.ActionIdSortParm = sortOrder == "ActionIdSortParm" ? "ActionIdSortParm_desc" : "ActionIdSortParm"; 
+			ViewBag.PlayerIdSortParm = sortOrder == "PlayerIdSortParm" ? "PlayerIdSortParm_desc" : "PlayerIdSortParm";
+			ViewBag.ActionNameSortParm = sortOrder == "ActionNameSortParm" ? "ActionNameSortParm_desc" : "ActionNameSortParm";
+			ViewBag.StreetSortParm  = sortOrder == "StreetSortParm" ? "StreetSortParm_desc" : "StreetSortParm";
+			ViewBag.AmountSortParm  = sortOrder == "AmountSortParm" ? "AmountSortParm_desc" : "AmountSortParm";
 			ViewBag.CurrentItemsPerPage = itemsPerPage;
 
+
+			searchStringFilter(ref page, ref searchString, currentFilter);
+
 			var hand_action = db.hand_action.Include(h => h.hand).Include(h => h.player);
-		    
+			//parse search string
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				long searchID = 0;
+				long.TryParse(searchString,out searchID);
+				hand_action = hand_action.Where(s => s.PlayerID == searchID);
+			}
+			//Handle toggling between asc and desc
+			switch (sortOrder)
+			{
+				case "id":
+					hand_action = hand_action.OrderBy(s => s.HandID);
+					break;
+
+				case "id_desc":
+				hand_action = hand_action.OrderByDescending(s => s.HandID);
+			break;
+
+				case "ActionIdSortParm":
+			hand_action = hand_action.OrderBy(s => s.ActionID);
+			break;
+				case "ActionIdSortParm_desc":
+			hand_action = hand_action.OrderByDescending(s => s.ActionID);
+			break;
+				case "PlayerIdSortParm":
+			hand_action = hand_action.OrderBy(s => s.PlayerID);
+			break;
+				case "PlayerIdSortParm_desc":
+			hand_action = hand_action.OrderByDescending(s => s.PlayerID);
+			break;
+				case "ActionNameSortParm":
+			hand_action = hand_action.OrderBy(s => s.ActionName);
+			break;
+				case "ActionNameSortParm_desc":
+			hand_action = hand_action.OrderByDescending(s => s.ActionName);
+			break;
+				case "StreetSortParm":
+			hand_action = hand_action.OrderBy(s => s.Street);
+			break;
+				case "StreetSortParm_desc":
+			hand_action = hand_action.OrderByDescending(s => s.Street);
+			break;
+				case "AmountSortParm_desc":
+			hand_action = hand_action.OrderByDescending(s => s.Amount);
+			break;
+				case "AmountSortParm":
+			hand_action = hand_action.OrderBy(s => s.Amount);
+			break;
+				default:
+	
+			break;
+
+		}
 			return View(hand_action.ToList().ToPagedList(pageNumber: page ?? 1, pageSize: itemsPerPage ?? 25));
 
 		
         }
+
+		private void searchStringFilter(ref int? page, ref string searchString, string currentFilter)
+		{
+			if (searchString != null)
+			{
+				page = 1;
+			}
+			else
+			{
+				searchString = currentFilter;
+			}
+			ViewBag.CurrentFilter = searchString;
+		}
 
 		
         // GET: hand_action/Details/5

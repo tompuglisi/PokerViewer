@@ -1,4 +1,11 @@
-﻿@model IEnumerable<PokerViewer.Models.player_stats>
+﻿@model PagedList.IPagedList<PokerViewer.Models.player_stats>
+@using PagedList.Mvc;
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
+
+<link href="~/Content/PagedList.css" rel="stylesheet"
+	  type="text/css" />
 
 @{
     ViewBag.Title = "Index";
@@ -8,31 +15,46 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+@using (Html.BeginForm("Index", "player_stats", FormMethod.Get))
+{
+	<p>
+		Find by Player Name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+		<input type="submit" value="Search" />
+	</p>
+}
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+			@Html.ActionLink("Player Name", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+            
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HandsPlayed)
+			@Html.ActionLink("Hands Played", "Index", new { sortOrder = ViewBag.HandsPlayedSortParm, currentFilter = ViewBag.CurrentFilter })
+         
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Winnings)
+			@Html.ActionLink("Winnings", "Index", new { sortOrder = ViewBag.WinningsSortParm, currentFilter = ViewBag.CurrentFilter })
+          
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.VPIP)
+			@Html.ActionLink("VPIP", "Index", new { sortOrder = ViewBag.VPIPSortParm, currentFilter = ViewBag.CurrentFilter })
+        
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PFR)
+			@Html.ActionLink("PFR", "Index", new { sortOrder = ViewBag.PFRSortParm, currentFilter = ViewBag.CurrentFilter })
+         
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ThreeBet)
+			@Html.ActionLink("ThreeBet", "Index", new { sortOrder = ViewBag.ThreeBetSortParm, currentFilter = ViewBag.CurrentFilter })
+         
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FourBet)
+			@Html.ActionLink("FourBet", "Index", new { sortOrder = ViewBag.FourBetSortParm, currentFilter = ViewBag.CurrentFilter })
+          
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PFAF)
+			@Html.ActionLink("PFAF", "Index", new { sortOrder = ViewBag.PFAFSortParm, currentFilter = ViewBag.CurrentFilter })
+           
         </th>
         <th></th>
     </tr>
@@ -72,3 +94,8 @@
 }
 
 </table>
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, itemsPerPage = ViewBag.CurrentItemsPerPage, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+

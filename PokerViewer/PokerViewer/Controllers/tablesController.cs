@@ -16,9 +16,72 @@ namespace PokerViewer.Controllers
         private PokerDB db = new PokerDB();
 
         // GET: tables
-		public ActionResult Index(int? itemsPerPage, int? page)
-        {
-			return View(db.tables.ToList().ToPagedList(pageNumber: page ?? 1, pageSize: itemsPerPage ?? 25));
+		public ActionResult Index(int? itemsPerPage, int? page, string sortOrder, string searchString, string currentFilter)
+		{
+
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.IdSortParm = sortOrder == "id" ? "id_desc" : "id";  //String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+			ViewBag.MaxPlayers = sortOrder == "MaxPlayers" ? "MaxPlayers_desc" : "MaxPlayers";
+			ViewBag.StakesSortParm = sortOrder == "StakesSortParm" ? "StakesSortParm_desc" : "StakesSortParm";
+			ViewBag.SiteSortParm = sortOrder == "SiteSortParm" ? "SiteSortParm_desc" : "SiteSortParm";
+			
+			ViewBag.CurrentItemsPerPage = itemsPerPage;
+
+			if (searchString != null)
+			{
+				page = 1;
+			}
+			else
+			{
+				searchString = currentFilter;
+			}
+
+			var tables = db.tables.Where(p => p.TableName.Length>0);
+			//parse search string
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				long searchID = 0;
+				long.TryParse(searchString, out searchID);
+				tables = tables.Where(s => s.TableID == searchID);
+			}
+			
+			ViewBag.CurrentFilter = searchString;
+			//Handle toggling between asc and desc
+			switch (sortOrder)
+			{
+				case "id":
+					tables = tables.OrderBy(s => s.TableID);
+					break;
+
+				case "id_desc":
+					tables = tables.OrderByDescending(s => s.TableID);
+					break;
+
+				case "MaxPlayers":
+					tables = tables.OrderBy(s => s.MaxPlayers);
+					break;
+				case "MaxPlayers_desc":
+					tables = tables.OrderByDescending(s => s.MaxPlayers);
+					break;
+				case "StakesSortParm":
+					tables = tables.OrderBy(s => s.Stakes);
+					break;
+				case "StakesSortParm_desc":
+					tables = tables.OrderByDescending(s => s.Stakes);
+					break;
+				case "SiteSortParm":
+					tables = tables.OrderBy(s => s.Site);
+					break;
+				case "SiteSortParm_desc":
+					tables = tables.OrderByDescending(s => s.Site);
+					break;
+
+				default:
+					tables = tables.OrderBy(s => s.TableID);
+					break;
+			}
+            
+			return View(tables.ToList().ToPagedList(pageNumber: page ?? 1, pageSize: itemsPerPage ?? 25));
         }
 
         // GET: tables/Details/5

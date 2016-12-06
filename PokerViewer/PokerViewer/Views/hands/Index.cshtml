@@ -13,6 +13,13 @@
 
 
 }
+@using (Html.BeginForm("Index", "hands", FormMethod.Get))
+{
+	<p>
+		Find by Hand ID: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+		<input type="submit" value="Search" />
+	</p>
+}
 <h2>Index</h2>
 
 <p>
@@ -21,40 +28,51 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().HandID)
+			@Html.ActionLink("HandID", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
+      
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().TableID)
+			@Html.ActionLink("TableID", "Index", new { sortOrder = ViewBag.TableIDSortParm, currentFilter = ViewBag.CurrentFilter })
+          
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().NumPlayers)
+			@Html.ActionLink("NumPlayers", "Index", new { sortOrder = ViewBag.NumPlayersSortParm, currentFilter = ViewBag.CurrentFilter })
+        
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().StartTime)
+			@Html.ActionLink("StartTime", "Index", new { sortOrder = ViewBag.StartTimeSortParm, currentFilter = ViewBag.CurrentFilter })
+                  </th>
+        <th>
+			@Html.ActionLink("ButtonPosition", "Index", new { sortOrder = ViewBag.ButtonPositionSortParm, currentFilter = ViewBag.CurrentFilter })
+          
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().ButtonPosition)
+			@Html.ActionLink("PotSize", "Index", new { sortOrder = ViewBag.PotSizeSortParm, currentFilter = ViewBag.CurrentFilter })
+    
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().PotSize)
+			@Html.ActionLink("FlopCard1", "Index", new { sortOrder = ViewBag.FlopCard1, currentFilter = ViewBag.CurrentFilter })
+   
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FlopCard1)
+			@Html.ActionLink("FlopCard2", "Index", new { sortOrder = ViewBag.FlopCard2, currentFilter = ViewBag.CurrentFilter })
+      
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FlopCard2)
+			@Html.ActionLink("FlopCard3", "Index", new { sortOrder = ViewBag.FlopCard3, currentFilter = ViewBag.CurrentFilter })
+     
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().FlopCard3)
+			@Html.ActionLink("TurnCard", "Index", new { sortOrder = ViewBag.TurnCard, currentFilter = ViewBag.CurrentFilter })
+      
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().TurnCard)
+			@Html.ActionLink("RiverCard", "Index", new { sortOrder = ViewBag.RiverCard, currentFilter = ViewBag.CurrentFilter })
+       
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().RiverCard)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().table.Stakes)
+			@Html.ActionLink("Table Stakes", "Index", new { sortOrder = ViewBag.tableStakes, currentFilter = ViewBag.CurrentFilter })
+        
         </th>
         <th></th>
     </tr>
@@ -108,4 +126,4 @@
 </table>
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index", new { page, itemsPerPage = ViewBag.CurrentItemsPerPage }))
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, itemsPerPage = ViewBag.CurrentItemsPerPage, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
