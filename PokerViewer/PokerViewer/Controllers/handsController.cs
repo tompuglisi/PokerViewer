@@ -16,9 +16,124 @@ namespace PokerViewer.Controllers
         private PokerDB db = new PokerDB();
 
         // GET: hands
-		public ActionResult Index(int? itemsPerPage, int? page)
+		public ActionResult Index(int? itemsPerPage, int? page, string sortOrder, string searchString, string currentFilter)
         {
-            var hands = db.hands.Include(h => h.table);
+
+			ViewBag.CurrentSort = sortOrder;
+			ViewBag.IdSortParm = sortOrder == "id" ? "id_desc" : "id";  //String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+			ViewBag.TableIdSortParm = sortOrder == "TableIdSortParm" ? "TableIdSortParm_desc" : "TableIdSortParm";
+			ViewBag.NumPlayersSortParm = sortOrder == "NumPlayersSortParm" ? "NumPlayersSortParm_desc" : "NumPlayersSortParm";
+			ViewBag.StartTimeSortParm = sortOrder == "StartTimeSortParm" ? "StartTimeSortParm_desc" : "StartTimeSortParm";
+			ViewBag.ButtonPositionSortParm = sortOrder == "ButtonPositionSortParm" ? "ButtonPositionSortParm_desc" : "ButtonPositionSortParm";
+			ViewBag.PotSizeSortParm = sortOrder == "PotSizeSortParm" ? "PotSizeSortParm_desc" : "PotSizeSortParm";
+			ViewBag.FlopCard1 = sortOrder == "FlopCard1" ? "FlopCard1_desc" : "FlopCard1";
+			ViewBag.FlopCard2 = sortOrder == "FlopCard2" ? "FlopCard2_desc" : "FlopCard2";
+			ViewBag.FlopCard3 = sortOrder == "FlopCard3" ? "FlopCard3_desc" : "FlopCard3";
+			ViewBag.TurnCard = sortOrder == "TurnCard" ? "TurnCard_desc" : "TurnCard";
+			ViewBag.RiverCard = sortOrder == "RiverCard" ? "RiverCard_desc" : "RiverCard";
+			ViewBag.tableStakes = sortOrder == "tableStakes" ? "tableStakes_desc" : "tableStakes";
+			ViewBag.CurrentItemsPerPage = itemsPerPage;
+
+			if (searchString != null)
+			{
+				page = 1;
+			}
+			else
+			{
+				searchString = currentFilter;
+			}
+
+			var hands = db.hands.Include(h => h.table);
+			//parse search string
+			if (!String.IsNullOrEmpty(searchString))
+			{
+				long searchID = 0;
+				long.TryParse(searchString, out searchID);
+				hands = hands.Where(s => s.HandID == searchID);
+			}
+			ViewBag.CurrentFilter = searchString;
+			//Handle toggling between asc and desc
+			switch (sortOrder)
+			{
+				case "id":
+					hands = hands.OrderBy(s => s.HandID);
+					break;
+
+				case "id_desc":
+					hands = hands.OrderByDescending(s => s.HandID);
+					break;
+
+				case "TableIdSortParm":
+					hands = hands.OrderBy(s => s.TableID);
+					break;
+				case "TableIdSortParm_desc":
+					hands = hands.OrderByDescending(s => s.TableID);
+					break;
+				case "NumPlayersSortParm":
+					hands = hands.OrderBy(s => s.NumPlayers);
+					break;
+				case "NumPlayersSortParm_desc":
+					hands = hands.OrderByDescending(s => s.NumPlayers);
+					break;
+				case "StartTimeSortParm":
+					hands = hands.OrderBy(s => s.StartTime);
+					break;
+				case "StartTimeParm_desc":
+					hands = hands.OrderByDescending(s => s.StartTime);
+					break;
+				case "ButtonPositionSortParm":
+					hands = hands.OrderBy(s => s.ButtonPosition);
+					break;
+				case "ButtonPositionSortParm_desc":
+					hands = hands.OrderByDescending(s => s.ButtonPosition);
+					break;
+				case "PotSizeParm_desc":
+					hands = hands.OrderByDescending(s => s.PotSize);
+					break;
+				case "PotSizeSortParm":
+					hands = hands.OrderBy(s => s.PotSize);
+					break;
+				case "FlopCard1_desc":
+					hands = hands.OrderByDescending(s => s.FlopCard1);
+					break;
+				case "FlopCard1":
+					hands = hands.OrderBy(s => s.FlopCard1);
+					break;
+				case "FlopCard2_desc":
+					hands = hands.OrderByDescending(s => s.FlopCard2);
+					break;
+				case "FlopCard2":
+					hands = hands.OrderBy(s => s.FlopCard2);
+					break;
+				case "FlopCard3_desc":
+					hands = hands.OrderByDescending(s => s.FlopCard3);
+					break;
+				case "FlopCard3":
+					hands = hands.OrderBy(s => s.FlopCard3);
+					break;
+				case "TurnCard_desc":
+					hands = hands.OrderByDescending(s => s.TurnCard);
+					break;
+				case "TurnCard":
+					hands = hands.OrderBy(s => s.TurnCard);
+					break;
+				case "RiverCard_desc":
+					hands = hands.OrderByDescending(s => s.RiverCard);
+					break;
+				case "RiverCard":
+					hands = hands.OrderBy(s => s.RiverCard);
+					break;
+				case "tableStakes_desc":
+					hands = hands.OrderByDescending(s => s.table.Stakes);
+					break;
+				case "tableStakes":
+					hands = hands.OrderBy(s => s.table.Stakes);
+					break;
+
+				default:
+
+					break;
+			}
 			return View(hands.ToList().ToPagedList(pageNumber: page ?? 1, pageSize: itemsPerPage ?? 25));
             
         }
