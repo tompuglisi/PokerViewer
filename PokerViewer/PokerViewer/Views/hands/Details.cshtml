@@ -1,98 +1,146 @@
-﻿@model PokerViewer.Models.hand
+﻿@model PokerViewer.Models.HandDetails
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Hand Details</h2>
 
 <div>
-    <h4>hand</h4>
+    <h4>Hand: @Html.DisplayFor(model => model.Hand.HandID)</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NumPlayers)
+            @Html.DisplayNameFor(model => model.Hand.NumPlayers)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NumPlayers)
+            @Html.DisplayFor(model => model.Hand.NumPlayers)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
+            @Html.DisplayNameFor(model => model.Hand.StartTime)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartTime)
+            @Html.DisplayFor(model => model.Hand.StartTime)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ButtonPosition)
+            @Html.DisplayNameFor(model => model.Hand.ButtonPosition)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ButtonPosition)
+            @Html.DisplayFor(model => model.Hand.ButtonPosition)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PotSize)
+            @Html.DisplayNameFor(model => model.Hand.PotSize)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PotSize)
+            @Html.DisplayFor(model => model.Hand.PotSize)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FlopCard1)
+            @Html.DisplayNameFor(model => model.Hand.FlopCard1)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FlopCard1)
+            @Html.DisplayFor(model => model.Hand.FlopCard1)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FlopCard2)
+            @Html.DisplayNameFor(model => model.Hand.FlopCard2)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FlopCard2)
+            @Html.DisplayFor(model => model.Hand.FlopCard2)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FlopCard3)
+            @Html.DisplayNameFor(model => model.Hand.FlopCard3)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FlopCard3)
+            @Html.DisplayFor(model => model.Hand.FlopCard3)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TurnCard)
+            @Html.DisplayNameFor(model => model.Hand.TurnCard)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TurnCard)
+            @Html.DisplayFor(model => model.Hand.TurnCard)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.RiverCard)
+            @Html.DisplayNameFor(model => model.Hand.RiverCard)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RiverCard)
+            @Html.DisplayFor(model => model.Hand.RiverCard)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.table.Stakes)
+            @Html.DisplayNameFor(model => model.Hand.table.Stakes)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.table.Stakes)
+            @Html.DisplayFor(model => model.Hand.table.Stakes)
         </dd>
 
     </dl>
 </div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().ActionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().PlayerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().ActionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().Amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ActionList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlayerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
+
+</table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.HandID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Hand.HandID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

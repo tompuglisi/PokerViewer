@@ -210,6 +210,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\HandDetails.cs" />
     <Compile Include="Models\Add.cs" />
     <Compile Include="Models\hand.cs">
       <DependentUpon>PokerDataModel.tt</DependentUpon>
@@ -385,10 +386,7 @@
     <Content Include="Views\plays\Edit.cshtml" />
     <Content Include="Views\plays\Index.cshtml" />
     <Content Include="Views\Add\Result.cshtml" />
-    <Content Include="Views\player_stats\Create.cshtml" />
-    <Content Include="Views\player_stats\Delete.cshtml" />
     <Content Include="Views\player_stats\Details.cshtml" />
-    <Content Include="Views\player_stats\Edit.cshtml" />
     <Content Include="Views\player_stats\Index.cshtml" />
     <Content Include="Views\player_matchups\Index.cshtml" />
   </ItemGroup>
