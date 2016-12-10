@@ -45,9 +45,8 @@ namespace PokerViewer.Controllers
 			//parse search string
 			if (!String.IsNullOrEmpty(searchString))
 			{
-				long searchID = 0;
-				long.TryParse(searchString, out searchID);
-				player_stats = player_stats.Where(s => s.Name.Equals(searchID));
+	
+				player_stats = player_stats.Where(s => s.Name.Contains(searchString));
 			}
 			ViewBag.CurrentFilter = searchString;
 			//Handle toggling between asc and desc
