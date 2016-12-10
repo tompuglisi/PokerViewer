@@ -21,13 +21,14 @@ namespace PokerViewer.Controllers
 
 			ViewBag.CurrentSort = sortOrder;
 			ViewBag.IdSortParm = sortOrder == "id" ? "id_desc" : "id";  //String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-			ViewBag.StartingStack = sortOrder == "StartingStack" ? "StartingStack_desc" : "StartingStack";
+            ViewBag.HandID = sortOrder == "HandID" ? "HandID_desc" : "HandID";
+            ViewBag.playerName = sortOrder == "player.Name" ? "player.Name_desc" : "player.Name";
+            ViewBag.StartingStack = sortOrder == "StartingStack" ? "StartingStack_desc" : "StartingStack";
 			ViewBag.EndingStackSortParm = sortOrder == "EndingStackSortParm" ? "EndingStackSortParm_desc" : "EndingStackSortParm";
 			ViewBag.SeatPositionSortParm = sortOrder == "SeatPositionSortParm" ? "SeatPositionSortParm_desc" : "SeatPositionSortParm";
 			ViewBag.HoleCard1SortParm = sortOrder == "HoleCard1SortParm" ? "HoleCard1SortParm_desc" : "HoleCard1SortParm";
 			ViewBag.HoleCard2SortParm = sortOrder == "HoleCard2SortParm" ? "HoleCard2SortParm_desc" : "HoleCard2SortParm";
 			ViewBag.handTableID = sortOrder == "hand.TableID" ? "hand.TableID_desc" : "hand.TableID";
-			ViewBag.playerName = sortOrder == "player.Name" ? "player.Name_desc" : "player.Name";
 			ViewBag.CurrentItemsPerPage = itemsPerPage;
 
 			if (searchString != null)
@@ -52,12 +53,22 @@ namespace PokerViewer.Controllers
 				case "id":
 					plays = plays.OrderBy(s => s.HandID);
 					break;
-
 				case "id_desc":
 					plays = plays.OrderByDescending(s => s.HandID);
 					break;
-
-				case "StartingStack":
+                case "HandID":
+                    plays = plays.OrderBy(s => s.HandID);
+                    break;
+                case "HandID_desc":
+                    plays = plays.OrderByDescending(s => s.HandID);
+                    break;
+                case "player.Name":
+                    plays = plays.OrderBy(s => s.player.Name);
+                    break;
+                case "player.Name_desc":
+                    plays = plays.OrderByDescending(s => s.player.Name);
+                    break;
+                case "StartingStack":
 					plays = plays.OrderBy(s => s.StartingStack);
 					break;
 				case "StartingStack_desc":
@@ -81,27 +92,19 @@ namespace PokerViewer.Controllers
 				case "HoleCard1SortParm_desc":
 					plays = plays.OrderByDescending(s => s.HoleCard1);
 					break;
-				case "HoleCard2SortParm_desc":
-					plays = plays.OrderByDescending(s => s.HoleCard2);
-					break;
 				case "HoleCard2SortParm":
 					plays = plays.OrderBy(s => s.HoleCard2);
 					break;
-				case "hand.TableID_desc":
-					plays = plays.OrderByDescending(s => s.hand.TableID);
-					break;
+                case "HoleCard2SortParm_desc":
+                    plays = plays.OrderByDescending(s => s.HoleCard2);
+                    break;
 				case "hand.TableID":
 					plays = plays.OrderBy(s => s.hand.TableID);
 					break;
-				case "player.Name_desc":
-					plays = plays.OrderByDescending(s => s.player.Name);
-					break;
-				case "player.Name":
-					plays = plays.OrderBy(s => s.player.Name);
-					break;
-			
-
-				default:
+                case "hand.TableID_desc":
+                    plays = plays.OrderByDescending(s => s.hand.TableID);
+                    break;
+                default:
 					plays = plays.OrderBy(s => s.HandID);
 					break;
 			}

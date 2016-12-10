@@ -47,7 +47,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hand.FlopCard1)
+            @if (Model.Hand.FlopCard1 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.FlopCard1 + ".png")" alt=@Model.Hand.FlopCard1 style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
@@ -55,7 +58,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hand.FlopCard2)
+            @if (Model.Hand.FlopCard2 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.FlopCard2 + ".png")" alt=@Model.Hand.FlopCard2 style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
@@ -63,7 +69,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hand.FlopCard3)
+            @if (Model.Hand.FlopCard3 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.FlopCard3 + ".png")" alt=@Model.Hand.FlopCard3 style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
@@ -71,7 +80,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hand.TurnCard)
+            @if (Model.Hand.TurnCard != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.TurnCard + ".png")" alt=@Model.Hand.TurnCard style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
@@ -79,7 +91,10 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Hand.RiverCard)
+            @if (Model.Hand.RiverCard != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.RiverCard + ".png")" alt=@Model.Hand.RiverCard style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>

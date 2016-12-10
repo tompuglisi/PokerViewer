@@ -29,50 +29,39 @@
     <tr>
         <th>
 			@Html.ActionLink("HandID", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
-      
         </th>
         <th>
 			@Html.ActionLink("TableID", "Index", new { sortOrder = ViewBag.TableIDSortParm, currentFilter = ViewBag.CurrentFilter })
-          
         </th>
         <th>
 			@Html.ActionLink("NumPlayers", "Index", new { sortOrder = ViewBag.NumPlayersSortParm, currentFilter = ViewBag.CurrentFilter })
-        
         </th>
         <th>
 			@Html.ActionLink("StartTime", "Index", new { sortOrder = ViewBag.StartTimeSortParm, currentFilter = ViewBag.CurrentFilter })
-                  </th>
+        </th>
         <th>
 			@Html.ActionLink("ButtonPosition", "Index", new { sortOrder = ViewBag.ButtonPositionSortParm, currentFilter = ViewBag.CurrentFilter })
-          
         </th>
         <th>
 			@Html.ActionLink("PotSize", "Index", new { sortOrder = ViewBag.PotSizeSortParm, currentFilter = ViewBag.CurrentFilter })
-    
         </th>
         <th>
 			@Html.ActionLink("FlopCard1", "Index", new { sortOrder = ViewBag.FlopCard1, currentFilter = ViewBag.CurrentFilter })
-   
         </th>
         <th>
 			@Html.ActionLink("FlopCard2", "Index", new { sortOrder = ViewBag.FlopCard2, currentFilter = ViewBag.CurrentFilter })
-      
         </th>
         <th>
 			@Html.ActionLink("FlopCard3", "Index", new { sortOrder = ViewBag.FlopCard3, currentFilter = ViewBag.CurrentFilter })
-     
         </th>
         <th>
 			@Html.ActionLink("TurnCard", "Index", new { sortOrder = ViewBag.TurnCard, currentFilter = ViewBag.CurrentFilter })
-      
         </th>
         <th>
 			@Html.ActionLink("RiverCard", "Index", new { sortOrder = ViewBag.RiverCard, currentFilter = ViewBag.CurrentFilter })
-       
         </th>
         <th>
 			@Html.ActionLink("Table Stakes", "Index", new { sortOrder = ViewBag.tableStakes, currentFilter = ViewBag.CurrentFilter })
-        
         </th>
         <th></th>
     </tr>
@@ -98,19 +87,34 @@
             @Html.DisplayFor(modelItem => item.PotSize)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FlopCard1)
+            @if (item.FlopCard1 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.FlopCard1 + ".png")" alt=@item.FlopCard1 style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FlopCard2)
+            @if (item.FlopCard2 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.FlopCard2 + ".png")" alt=@item.FlopCard2 style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.FlopCard3)
+            @if (item.FlopCard3 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.FlopCard3 + ".png")" alt=@item.FlopCard3 style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TurnCard)
+            @if (item.TurnCard != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.TurnCard + ".png")" alt=@item.TurnCard style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.RiverCard)
+            @if (item.RiverCard != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.RiverCard + ".png")" alt=@item.RiverCard style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.table.Stakes)
