@@ -108,11 +108,11 @@ namespace PokerViewer.Controllers
                         //Add to hand table
                         hand dbHand = addHandToDB(handHistory, dbTable);
 
-                        // Add to plays table
-                        addPlaysToDB(handHistory, playerDict);
-
                         // Add to hand_action table
                         addHandActionToDB(handHistory, dbHand, playerDict);
+
+                        // Add to plays table
+                        addPlaysToDB(handHistory, playerDict);
 
                         db.SaveChanges();
 
@@ -155,12 +155,14 @@ namespace PokerViewer.Controllers
 
         private void addPlaysToDB(HandHistory handHistory, Dictionary<string,player> playerDict)
         {
+            Dictionary<string, decimal> stackChanges = getStackChanges(handHistory.HandActions);
             foreach (Player parserPlayer in handHistory.Players)
             {
                 player dbPlayer = playerDict[parserPlayer.PlayerName];
                 IEnumerator<Card> cardList = null;
                 string card1 = null;
                 string card2 = null;
+                decimal val;
                 if (parserPlayer.IsSittingOut) return;
                 if (db.plays.Find(dbPlayer.PlayerID, handHistory.HandId) != null) return; //this is failing
                 if (parserPlayer.hasHoleCards)
@@ -174,6 +176,7 @@ namespace PokerViewer.Controllers
                     PlayerID = dbPlayer.PlayerID,
                     HandID = handHistory.HandId,
                     StartingStack = parserPlayer.StartingStack,
+                    EndingStack = (stackChanges.TryGetValue(dbPlayer.Name, out val)) ? parserPlayer.StartingStack + val : parserPlayer.StartingStack,
                     SeatPosition = parserPlayer.SeatNumber,
                     HoleCard1 = card1,
                     HoleCard2 = card2,
@@ -182,6 +185,50 @@ namespace PokerViewer.Controllers
                 };
                 db.plays.Add(newPlay);
             }
+        }
+
+        private Dictionary<string,decimal> getStackChanges(List<HandAction> Actions)
+        {
+            Dictionary<string, decimal> stackChanges = new Dictionary<string, decimal>();
+            decimal uncalledBet = 0;
+            decimal totalBet = 0;
+            string uncalledPlayer = "";
+            for (int i = 0; i < Actions.Count; i++)
+            {
+                HandAction action = Actions.ElementAt(i);
+                if (action.Amount == 0) continue;
+                string actionName = action.HandActionType.ToString();
+                if (actionName == "CALL")
+                {
+                    stackChanges = addOrUpdateDict(stackChanges, action.PlayerName, action.Amount);
+                    uncalledBet = 0;
+                }
+                else // (actionName == "RAISE" || actionName == "BET" || actionName == "UNCALLED_BET" || actionName == "ALL_IN")
+                {
+                    stackChanges = addOrUpdateDict(stackChanges, action.PlayerName, action.Amount);
+                    if (!action.IsWinningsAction)
+                    {
+                        uncalledBet = stackChanges[action.PlayerName] - totalBet; // Uncalled bet is the total put in by the current highest bettor minus the previous total bet
+                        totalBet = stackChanges[action.PlayerName]; // Update to new totalBet
+                        uncalledPlayer = action.PlayerName;
+                    }
+                }
+            }
+            return addOrUpdateDict(stackChanges, uncalledPlayer, -uncalledBet); // Update the uncalled player's stack change
+        }
+
+        private Dictionary<string,decimal> addOrUpdateDict(Dictionary<string,decimal> dict, string str, decimal dec)
+        {
+            decimal val;
+            if (dict.TryGetValue(str, out val))
+            {
+                dict[str] = val + dec;
+            }
+            else
+            {
+                dict.Add(str, dec);
+            }
+            return dict;
         }
 
         private hand addHandToDB(HandHistory handHistory, table handTable)
