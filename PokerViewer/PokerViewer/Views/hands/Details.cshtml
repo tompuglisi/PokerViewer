@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Hand Details</h2>
+<h2>Hand @Html.DisplayFor(model => model.Hand.HandID) Details</h2>
 
 <div>
-    <h4>Hand: @Html.DisplayFor(model => model.Hand.HandID)</h4>
+    <h4></h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -146,16 +146,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
         </tr>
     }
 
 </table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Hand.HandID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit Hand", "Edit", new { id = Model.Hand.HandID }) |
+    @Html.ActionLink("Back to Hand List", "Index")
 </p>
