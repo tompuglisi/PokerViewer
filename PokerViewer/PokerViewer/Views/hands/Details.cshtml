@@ -11,6 +11,14 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Hand.TableID)
+        </dt>
+
+        <dd>
+            @Html.ActionLink(Model.Hand.TableID.ToString(), "Details", "tables", new { id = Model.Hand.TableID }, null)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Hand.NumPlayers)
         </dt>
 
@@ -135,7 +143,7 @@
                 @Html.DisplayFor(modelItem => item.ActionID)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PlayerID)
+                @Html.ActionLink(item.PlayerID.ToString(), "Details", "player_stats", new { id = item.PlayerID }, null)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ActionName)

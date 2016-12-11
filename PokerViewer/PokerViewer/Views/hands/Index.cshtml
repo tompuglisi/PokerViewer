@@ -72,7 +72,7 @@
             @Html.DisplayFor(modelItem => item.HandID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TableID)
+            @Html.ActionLink(item.TableID.ToString(), "Details", "tables", new { id = item.TableID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.NumPlayers)

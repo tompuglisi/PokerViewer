@@ -10,15 +10,10 @@
 @{
 	ViewBag.Title = "hand_action";
 	SelectList itemsPerPageList = DefaultValues.ItemsPerPageList;
-
-	
 }
 
-<h2>Index</h2>
+<h2>Hand Action Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 @using (Html.BeginForm("Index", "hand_action", FormMethod.Get))
 {
 	<p>
@@ -29,41 +24,35 @@
 <table class="table">
     <tr>
         <th>
-
-           
 			@Html.ActionLink("HandID", "Index", new { sortOrder = ViewBag.IdSortParm, currentFilter = ViewBag.CurrentFilter })
         </th>
         <th>
 			@Html.ActionLink("ActionID", "Index", new { sortOrder = ViewBag.ActionIdSortParm, currentFilter = ViewBag.CurrentFilter })
-    
         </th>
         <th>
 			@Html.ActionLink("PlayerID", "Index", new { sortOrder = ViewBag.PlayerIdSortParm, currentFilter = ViewBag.CurrentFilter })
-              </th>
+        </th>
         <th>
 			@Html.ActionLink("ActionName", "Index", new { sortOrder = ViewBag.ActionNameSortParm, currentFilter = ViewBag.CurrentFilter })
-		
-                  </th>
+        </th>
         <th>
 			@Html.ActionLink("Street", "Index", new { sortOrder = ViewBag.StreetSortParm, currentFilter = ViewBag.CurrentFilter })
-                </th>
+        </th>
         <th>
 			@Html.ActionLink("Amount", "Index", new { sortOrder = ViewBag.AmountSortParm, currentFilter = ViewBag.CurrentFilter })
-         
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.HandID)
+            @Html.ActionLink(item.HandID.ToString(), "Details", "hands", new { id = item.HandID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ActionID)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.PlayerID)
+            @Html.ActionLink(item.PlayerID.ToString(), "Details", "player_stats", new { id = item.PlayerID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.ActionName)
@@ -73,11 +62,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
         </td>
     </tr>
 }

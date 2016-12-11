@@ -85,7 +85,7 @@ namespace PokerViewer.Controllers
         }
 
         // GET: tables/Details/5
-        public ActionResult Details(string id)
+        public ActionResult Details(long? id)
         {
             if (id == null)
             {
@@ -110,7 +110,7 @@ namespace PokerViewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TableID,MaxPlayers,Stakes,Site,Limit")] table table)
+        public ActionResult Create([Bind(Include = "TableID,TableName,MaxPlayers,Stakes,Site,Limit")] table table)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +123,7 @@ namespace PokerViewer.Controllers
         }
 
         // GET: tables/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(long? id)
         {
             if (id == null)
             {
@@ -142,7 +142,7 @@ namespace PokerViewer.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "TableID,MaxPlayers,Stakes,Site,Limit")] table table)
+        public ActionResult Edit([Bind(Include = "TableID,TableName,MaxPlayers,Stakes,Site,Limit")] table table)
         {
             if (ModelState.IsValid)
             {
@@ -154,7 +154,7 @@ namespace PokerViewer.Controllers
         }
 
         // GET: tables/Delete/5
-        public ActionResult Delete(string id)
+        public ActionResult Delete(long? id)
         {
             if (id == null)
             {
@@ -171,7 +171,7 @@ namespace PokerViewer.Controllers
         // POST: tables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(string id)
+        public ActionResult DeleteConfirmed(long? id)
         {
             table table = db.tables.Find(id);
             db.tables.Remove(table);

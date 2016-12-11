@@ -14,11 +14,8 @@
 
 }
 
-<h2>Index</h2>
+<h2>Plays Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 @using (Html.BeginForm("Index", "plays", FormMethod.Get))
 {
 	<p>
@@ -52,16 +49,15 @@
         <th>
 			@Html.ActionLink("TableID", "Index", new { sortOrder = ViewBag.handTableID, currentFilter = ViewBag.CurrentFilter })
         </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.HandID)
+            @Html.ActionLink(item.HandID.ToString(), "Details", "hands", new { id = item.HandID }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.player.Name)
+            @Html.ActionLink(item.player.Name, "Details", "player_stats", new { id = item.PlayerID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.StartingStack)
@@ -85,12 +81,8 @@
             }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.hand.TableID)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink(item.hand.TableID.ToString(), "Details", "tables", new { id = item.hand.TableID }, null)
+            
         </td>
     </tr>
 }
