@@ -389,6 +389,7 @@
     <Content Include="Views\player_stats\Details.cshtml" />
     <Content Include="Views\player_stats\Index.cshtml" />
     <Content Include="Views\player_matchups\Index.cshtml" />
+    <Content Include="Views\player_matchups\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
