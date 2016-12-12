@@ -1,98 +1,164 @@
-﻿@model PokerViewer.Models.hand
+﻿@model PokerViewer.Models.HandDetails
 
 @{
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Hand @Html.DisplayFor(model => model.Hand.HandID) Details</h2>
 
 <div>
-    <h4>hand</h4>
+    <h4></h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.NumPlayers)
+            @Html.DisplayNameFor(model => model.Hand.TableID)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.NumPlayers)
+            @Html.ActionLink(Model.Hand.TableID.ToString(), "Details", "tables", new { id = Model.Hand.TableID }, null)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.StartTime)
+            @Html.DisplayNameFor(model => model.Hand.NumPlayers)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.StartTime)
+            @Html.DisplayFor(model => model.Hand.NumPlayers)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ButtonPosition)
+            @Html.DisplayNameFor(model => model.Hand.StartTime)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ButtonPosition)
+            @Html.DisplayFor(model => model.Hand.StartTime)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.PotSize)
+            @Html.DisplayNameFor(model => model.Hand.ButtonPosition)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.PotSize)
+            @Html.DisplayFor(model => model.Hand.ButtonPosition)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FlopCard1)
+            @Html.DisplayNameFor(model => model.Hand.PotSize)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FlopCard1)
+            @Html.DisplayFor(model => model.Hand.PotSize)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FlopCard2)
+            @Html.DisplayNameFor(model => model.Hand.FlopCard1)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FlopCard2)
+            @if (Model.Hand.FlopCard1 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.FlopCard1 + ".png")" alt=@Model.Hand.FlopCard1 style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.FlopCard3)
+            @Html.DisplayNameFor(model => model.Hand.FlopCard2)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.FlopCard3)
+            @if (Model.Hand.FlopCard2 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.FlopCard2 + ".png")" alt=@Model.Hand.FlopCard2 style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TurnCard)
+            @Html.DisplayNameFor(model => model.Hand.FlopCard3)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TurnCard)
+            @if (Model.Hand.FlopCard3 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.FlopCard3 + ".png")" alt=@Model.Hand.FlopCard3 style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.RiverCard)
+            @Html.DisplayNameFor(model => model.Hand.TurnCard)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RiverCard)
+            @if (Model.Hand.TurnCard != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.TurnCard + ".png")" alt=@Model.Hand.TurnCard style="max-height: 100px; max-width: 100px;" />
+            }
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.table.Stakes)
+            @Html.DisplayNameFor(model => model.Hand.RiverCard)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.table.Stakes)
+            @if (Model.Hand.RiverCard != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + Model.Hand.RiverCard + ".png")" alt=@Model.Hand.RiverCard style="max-height: 100px; max-width: 100px;" />
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Hand.table.Stakes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Hand.table.Stakes)
         </dd>
 
     </dl>
 </div>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().ActionID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().PlayerID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().ActionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().Street)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActionList.FirstOrDefault().Amount)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.ActionList)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionID)
+            </td>
+            <td>
+                @Html.ActionLink(item.PlayerID.ToString(), "Details", "player_stats", new { id = item.PlayerID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+        </tr>
+    }
+
+</table>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.HandID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Edit Hand", "Edit", new { id = Model.Hand.HandID }) |
+    @Html.ActionLink("Back to Hand List", "Index")
 </p>

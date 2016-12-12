@@ -150,7 +150,13 @@ namespace PokerViewer.Controllers
             {
                 return HttpNotFound();
             }
-            return View(hand);
+            List<hand_action> actionList = db.hand_action.Where(s => s.HandID == id).ToList();
+            HandDetails handDetails = new Models.HandDetails
+            {
+                Hand = hand,
+                ActionList = actionList
+            };
+            return View(handDetails);
         }
 
         // GET: hands/Create

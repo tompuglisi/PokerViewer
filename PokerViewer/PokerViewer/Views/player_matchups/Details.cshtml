@@ -1,0 +1,31 @@
+﻿@model IEnumerable<PokerViewer.Models.player_matchups>
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.ActionLink(Model.FirstOrDefault().Player1_Name, "Details", "player_stats", new { id = Model.FirstOrDefault().Player1_ID }, null) Match-ups</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Player2_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HandsPlayed)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.Player2_Name, "Details", "player_stats", new { id = item.Player2_ID }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HandsPlayed)
+        </td>
+    </tr>
+}
+
+</table>

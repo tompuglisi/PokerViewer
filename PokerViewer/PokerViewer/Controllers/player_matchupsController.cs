@@ -15,9 +15,15 @@ namespace PokerViewer.Controllers
         private PokerDB db = new PokerDB();
 
         // GET: player_matchups
-        public ActionResult Index(long? id)
+        public ActionResult Index()
         {
-            return (id == null) ? View(db.player_matchups.ToList()) : View(db.player_matchups.Where(s => s.Player1_ID == id).ToList());
+            return View(db.player_matchups.ToList());
+        }
+
+        public ActionResult Details(long? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            return View(db.player_matchups.Where(s => s.Player1_ID == id).ToList());
         }
     }
 }

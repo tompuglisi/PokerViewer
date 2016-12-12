@@ -13,7 +13,7 @@
 
 <h2>Player Index</h2>
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New Player", "Create", "players")
 </p>
 @using (Html.BeginForm("Index", "player_stats", FormMethod.Get))
 {
@@ -65,7 +65,7 @@
             @Html.DisplayFor(modelItem => item.Name)
         </td>
         <td>
-            @Html.ActionLink(item.HandsPlayed.ToString(), "Index", "player_matchups", new { id = item.PlayerID }, null)
+            @Html.ActionLink(item.HandsPlayed.ToString(), "Details", "player_matchups", new { id = item.PlayerID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Winnings)

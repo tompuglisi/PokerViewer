@@ -6,9 +6,6 @@
 
 <h2>Match-ups Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
@@ -26,16 +23,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Player1_Name)
+            @Html.ActionLink(item.Player1_Name, "Details", "player_stats", new { id = item.Player1_ID }, null)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Player2_Name)
+            @Html.ActionLink(item.Player2_Name, "Details", "player_stats", new { id = item.Player2_ID }, null)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.HandsPlayed)
         </td>
         <td>
-            @Html.ActionLink("Details", "Details", "player_stats", new { id=item.Player1_ID }, null)
+            
         </td>
     </tr>
 }

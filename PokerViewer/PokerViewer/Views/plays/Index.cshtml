@@ -14,11 +14,8 @@
 
 }
 
-<h2>Index</h2>
+<h2>Plays Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 @using (Html.BeginForm("Index", "plays", FormMethod.Get))
 {
 	<p>
@@ -29,38 +26,39 @@
 <table class="table">
     <tr>
         <th>
+            @Html.ActionLink("HandID", "Index", new { sortOrder = ViewBag.HandID, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
+            @Html.ActionLink("Player Name", "Index", new { sortOrder = ViewBag.playerName, currentFilter = ViewBag.CurrentFilter })
+        </th>
+        <th>
 			@Html.ActionLink("Starting Stack", "Index", new { sortOrder = ViewBag.StartingStack, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().StartingStack)
         </th>
         <th>
 			@Html.ActionLink("Ending Stack", "Index", new { sortOrder = ViewBag.EndingStackSortParm, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().EndingStack)
         </th>
         <th>
 			@Html.ActionLink("Seat Position", "Index", new { sortOrder = ViewBag.SeatPositionSortParm, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().SeatPosition)
         </th>
         <th>
 			@Html.ActionLink("HoleCard1", "Index", new { sortOrder = ViewBag.HoleCard1SortParm, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().HoleCard1)
         </th>
         <th>
 			@Html.ActionLink("HoleCard2", "Index", new { sortOrder = ViewBag.HoleCard2SortParm, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().HoleCard2)
         </th>
         <th>
 			@Html.ActionLink("TableID", "Index", new { sortOrder = ViewBag.handTableID, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().hand.TableID)
         </th>
-        <th>
-			@Html.ActionLink("Player Name", "Index", new { sortOrder = ViewBag.playerName, currentFilter = ViewBag.CurrentFilter })
-            @Html.DisplayNameFor(model => model.FirstOrDefault().player.Name)
-        </th>
-        <th></th>
     </tr>
 
 @foreach (var item in Model) {
     <tr>
+        <td>
+            @Html.ActionLink(item.HandID.ToString(), "Details", "hands", new { id = item.HandID }, null)
+        </td>
+        <td>
+            @Html.ActionLink(item.player.Name, "Details", "player_stats", new { id = item.PlayerID }, null)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.StartingStack)
         </td>
@@ -71,21 +69,20 @@
             @Html.DisplayFor(modelItem => item.SeatPosition)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HoleCard1)
+            @if (item.HoleCard1 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.HoleCard1 + ".png")" alt=@item.HoleCard1 style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.HoleCard2)
+            @if (item.HoleCard2 != null)
+            {
+                <img src="@Url.Content("~/Images/Cards/" + item.HoleCard2 + ".png")" alt=@item.HoleCard2 style="max-height: 100px; max-width: 100px;" />
+            }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.hand.TableID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.player.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink(item.hand.TableID.ToString(), "Details", "tables", new { id = item.hand.TableID }, null)
+            
         </td>
     </tr>
 }
