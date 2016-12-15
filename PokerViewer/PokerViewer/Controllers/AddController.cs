@@ -11,6 +11,7 @@ using HandHistories.Parser.Parsers.Base;
 using HandHistories.Objects.Players;
 using HandHistories.Objects.Cards;
 using HandHistories.Objects.Actions;
+using System.IO;
 
 namespace PokerViewer.Controllers
 {
@@ -45,7 +46,21 @@ namespace PokerViewer.Controllers
             List<string> messages = new List<string>();
             if (ModelState.IsValid)
             {
-                messages.AddRange(Parse(add.FilePath));
+
+                //handle a single file
+                if (add.FilePath.Contains(".txt"))
+                {
+                    messages.AddRange(Parse(add.FilePath));
+                }
+                //assume it's not a single file and try to iterate through directory
+                else
+                {
+                    foreach (string file in Directory.EnumerateFiles(add.FilePath, "*.txt"))
+                    {
+                       messages.AddRange(Parse(file));
+                    }
+
+                }
             }
             else messages.Add("Invalid model state. Input was not parsed.");
             ViewData["messages"] = messages as IList<string>;
