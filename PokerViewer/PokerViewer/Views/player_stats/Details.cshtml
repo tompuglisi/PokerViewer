@@ -68,8 +68,60 @@
     </dl>
 </div>
 
+<div>
+    <canvas id="myChart" width="400" height="400"></canvas>
+</div>
+
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.PlayerID }) |
     @Html.ActionLink("Delete", "Delete", new { id = Model.PlayerID }) |
     @Html.ActionLink("Back to player index", "Index")
 </p>
+
+@section Scripts {
+    <script>
+        var datachart = {
+            labels: ["VPIP", "PFR", "ThreeBet", "FourBet"],
+            datasets: [
+                {
+                    label: "Player",
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    pointBackgroundColor: "rgba(255,99,132,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(255,99,132,1)",
+                    data: []
+                },
+                {
+                    label: "Average",
+                    backgroundColor: "rgba(179,181,198,0.2)",
+                    borderColor: "rgba(179,181,198,1)",
+                    pointBackgroundColor: "rgba(179,181,198,1)",
+                    pointBorderColor: "#fff",
+                    pointHoverBackgroundColor: "#fff",
+                    pointHoverBorderColor: "rgba(179,181,198,1)",
+                    data: []
+                }
+            ]
+        };
+        $.getJSON("/player_stats/GetData/"+@Model.PlayerID, function (data) {
+            for (var i = 0; i <= data.length - 1; i++) {
+                //datachart.datasets[i].data.push(data[i].HandsPlayed)
+                //datachart.datasets[i].data.push(data[i].Winnings)
+                datachart.datasets[i].data.push(data[i].VPIP)
+                datachart.datasets[i].data.push(data[i].PFR)
+                datachart.datasets[i].data.push(data[i].ThreeBet)
+                datachart.datasets[i].data.push(data[i].FourBet)
+                //datachart.datasets[i].data.push(data[i].PFAF)
+            }
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var myRadarChart = new Chart(ctx,
+                {
+                    type: "radar",
+                    data: datachart,
+                    options: {}
+                });
+        });
+    </script>
+}

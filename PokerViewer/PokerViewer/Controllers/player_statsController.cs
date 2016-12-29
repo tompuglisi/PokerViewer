@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using PokerViewer.Models;
 using PagedList;
-
+using Newtonsoft.Json;
 
 namespace PokerViewer.Controllers
 {
@@ -142,6 +142,17 @@ namespace PokerViewer.Controllers
         public ActionResult Delete(long? id)
         {
             return RedirectToAction("Delete", "players", new { id = id });
+        }
+
+        public ContentResult GetData(long? id)
+        {
+            List<player_stats> playerStats = new List<player_stats>();
+            playerStats.Add(db.player_stats
+                .Where(s => s.PlayerID == id)
+                .SingleOrDefault());
+            string query = "SELECT -1 AS PlayerID, 'Average' AS Name, AVG(HandsPlayed) AS HandsPlayed, AVG(Winnings) AS Winnings, AVG(VPIP) AS VPIP, AVG(PFR) AS PFR, AVG(ThreeBet) AS ThreeBet, AVG(FourBet) AS FourBet, AVG(PFAF) AS PFAF FROM player_stats";
+            playerStats.AddRange(db.player_stats.SqlQuery(query).ToList());
+            return Content(JsonConvert.SerializeObject(playerStats), "application/json");
         }
     }
 }
