@@ -154,5 +154,12 @@ namespace PokerViewer.Controllers
             playerStats.AddRange(db.player_stats.SqlQuery(query).ToList());
             return Content(JsonConvert.SerializeObject(playerStats), "application/json");
         }
+
+        // Return a list of winnings (in Json format) for each hand played by the given player, organized by hand start time.
+        public ContentResult GetWinningsData(long? id)
+        {
+            List<long> winningsList = db.Database.SqlQuery<long>("SELECT EndingStack-StartingStack AS Winnings FROM plays INNER JOIN hand ON plays.HandID = hand.HandID WHERE PlayerID = @p0 ORDER BY StartTime", id).ToList();
+            return Content(JsonConvert.SerializeObject(winningsList), "application/json");
+        }
     }
 }

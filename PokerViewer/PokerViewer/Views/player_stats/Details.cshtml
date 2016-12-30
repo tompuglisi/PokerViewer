@@ -69,7 +69,11 @@
 </div>
 
 <div>
-    <canvas id="myChart" width="400" height="400"></canvas>
+    <canvas id="radarChart" width="100" height="100"></canvas>
+</div>
+
+<div>
+    <canvas id="winningsChart" width="400" height="400"></canvas>
 </div>
 
 <p>
@@ -80,7 +84,7 @@
 
 @section Scripts {
     <script>
-        var datachart = {
+        var radarData = {
             labels: ["VPIP", "PFR", "ThreeBet", "FourBet"],
             datasets: [
                 {
@@ -109,18 +113,67 @@
             for (var i = 0; i <= data.length - 1; i++) {
                 //datachart.datasets[i].data.push(data[i].HandsPlayed)
                 //datachart.datasets[i].data.push(data[i].Winnings)
-                datachart.datasets[i].data.push(data[i].VPIP)
-                datachart.datasets[i].data.push(data[i].PFR)
-                datachart.datasets[i].data.push(data[i].ThreeBet)
-                datachart.datasets[i].data.push(data[i].FourBet)
+                radarData.datasets[i].data.push(data[i].VPIP)
+                radarData.datasets[i].data.push(data[i].PFR)
+                radarData.datasets[i].data.push(data[i].ThreeBet)
+                radarData.datasets[i].data.push(data[i].FourBet)
                 //datachart.datasets[i].data.push(data[i].PFAF)
             }
-            var ctx = document.getElementById("myChart").getContext("2d");
+            var ctx = document.getElementById("radarChart").getContext("2d");
             var myRadarChart = new Chart(ctx,
                 {
                     type: "radar",
-                    data: datachart,
+                    data: radarData,
                     options: {}
+                });
+        });
+        var winningsData = {
+            labels: [],
+            datasets: [
+                {
+                    label: "Winnings",
+                    fill: false,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(75,192,192,0.4)",
+                    borderColor: "rgba(75,192,192,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(75,192,192,1)",
+                    pointBackgroundColor: "#fff",
+                    pointBorderWidth: 1,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                    pointHoverBorderColor: "rgba(220,220,220,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: [],
+                    spanGaps: false,
+                }
+            ]
+        };
+        $.getJSON("/player_stats/GetWinningsData/"+@Model.PlayerID, function (data) {
+            var total = 0;
+            for (var i = 0; i <= data.length - 1; i++) {
+                total = total + data[i];
+                winningsData.datasets[1].data.x.push(i+1)
+                winningsData.datasets[1].data.y.push(total)
+            }
+            var ctx = document.getElementById("winningsChart").getContext("2d");
+            var myWinningsChart = new Chart(ctx,
+                {
+                    type: "line",
+                    data: winningsData,
+                    options: {
+                        scales: {
+                            xAxes: [{
+                                type: 'linear',
+                                position: 'bottom'
+                            }]
+                        }
+                    }
                 });
         });
     </script>
